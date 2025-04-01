@@ -72,7 +72,14 @@ public class AdjacencyMatrixUndirectedGraph {
     public int getNbNodes() {
         return this.nbNodes;
     }
-	
+
+	/**
+	 * @param value
+	 */
+	public void changeNbNodes(int value) {
+		this.nbNodes += value;
+	}
+
     /**
 	 * @return the number of edges in the graph
  	 */	
@@ -80,6 +87,12 @@ public class AdjacencyMatrixUndirectedGraph {
 		return this.nbEdges;
 	}
 
+	/**
+	 * @param value
+	 */
+	public void changeNbEdges(int value) {
+		this.nbEdges += value;
+	}
 	/**
 	 * 
 	 * @param x the vertex selected
@@ -103,22 +116,29 @@ public class AdjacencyMatrixUndirectedGraph {
      	* @return true if the edge is in the graph.
      	*/
 	public boolean isEdge(int x, int y) {
-		// A completer
-		return true;		
+		return this.getMatrix()[x][y] > 0;
 	}
 	
 	/**
      	* removes the edge (x,y) if there exists one between these nodes in the graph.
     	 */
 	public void removeEdge(int x, int y) {
-		// A completer
+		if(isEdge(x, y)){
+			this.getMatrix()[x][y] = 0;
+			this.getMatrix()[y][x] = 0;
+			this.changeNbEdges(-1);
+		}
 	}
 
 	/**
      	* adds the edge (x,y) if there is not already one.
      	*/
 	public void addEdge(int x, int y) {
-		// A completer
+		if(isEdge(x, y)) {
+			this.matrix[x][y] = 1;
+			this.matrix[y][x] = 1;
+			changeNbEdges(1);
+		}
 	}
 
 	
