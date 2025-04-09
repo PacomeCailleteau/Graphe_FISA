@@ -117,30 +117,42 @@ public class AdjacencyMatrixDirectedGraph {
 	 * @return true if the arc (from,to) exists in the graph.
  	 */
 	public boolean isArc(int from, int to) {
-		// A completer
-		return true;
+		return this.matrix[from][to] > 0;
 	}
 
 	/**
 	 * removes the arc (from,to) if there exists one between these nodes in the graph.
 	 */
 	public void removeArc(int from, int to) {
-		// A completer
+		if (this.isArc(from, to)) {
+			this.matrix[from][to] = 0;
+			this.nbArcs--;
+		}
 	}
 
 	/**
 	 * Adds the arc (from,to). 
 	 */
 	public void addArc(int from, int to) {
-		// A completer
+		if (!this.isArc(from, to)) {
+			this.matrix[from][to] = 1;
+			this.nbArcs++;
+		}
 	}
 
 	/**
 	 * @return a new graph which is the inverse graph of this.matrix
  	 */
 	public AdjacencyMatrixDirectedGraph computeInverse() {
-		AdjacencyMatrixDirectedGraph amInv = new AdjacencyMatrixDirectedGraph(this.matrix);	
-		// A completer
+		AdjacencyMatrixDirectedGraph amInv = new AdjacencyMatrixDirectedGraph(this.matrix);
+		for (int i = 0; i < this.nbNodes; i++) {
+			for (int j = 0; j < this.nbNodes; j++) {
+				if (this.matrix[i][j] > 0) {
+					amInv.removeArc(i, j);
+					amInv.addArc(j, i);
+				}
+			}
+		}
 		return amInv;
 	}
 
@@ -176,6 +188,26 @@ public class AdjacencyMatrixDirectedGraph {
 		for (Integer integer : t2) {
 			System.out.print(integer + ", ");
 		}
-		// A completer
+
+		// Is Edge from 0 to 3 :
+		System.out.println("\n\nIs there an arc from 0 to 3 ? : " + am.isArc(0, 3));
+
+		// We add an arc from 0 to 2 :
+		System.out.println("\n\nWe add an arc from 0 to 2 : ");
+		am.addArc(0, 2);
+		System.out.println(am);
+		System.out.println("\nIs there an arc from 0 to 2 ? : " + am.isArc(0, 2));
+
+		// We remove the arc from 0 to 2 :
+		System.out.println("\n\nWe remove the arc from 0 to 2 : ");
+		am.removeArc(0, 2);
+		System.out.println(am);
+		System.out.println("\nIs there an arc from 0 to 2 ? : " + am.isArc(0, 2));
+
+		// We reverse the graph :
+		System.out.println("\n\nWe reverse the graph : ");
+		System.out.println("The graph\n" + am);
+		AdjacencyMatrixDirectedGraph amInv = am.computeInverse();
+		System.out.println("The inverse graph\n" + amInv);
 	}
 }
