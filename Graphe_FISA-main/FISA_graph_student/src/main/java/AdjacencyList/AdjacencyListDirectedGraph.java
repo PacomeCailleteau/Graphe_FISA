@@ -188,15 +188,6 @@ public class AdjacencyListDirectedGraph {
 	 * @return a new graph implementing IDirectedGraph interface which is the inverse graph of this
  	 */
     public AdjacencyListDirectedGraph computeInverse() {
-       /* int[][] adjacencyMatrix = this.toAdjacencyMatrix();
-        for (int line = 0; line < adjacencyMatrix.length; line++) {
-            for (int col = 0; col < adjacencyMatrix[line].length; col++) {
-                if (adjacencyMatrix[line][col] > 0) {
-                    adjacencyMatrix[line][col] = 0;
-                    adjacencyMatrix[col][line] = 1;
-                }
-            }
-        }*/
         AdjacencyListDirectedGraph g = new AdjacencyListDirectedGraph(this);
         g.arcs = new ArrayList<>();
         for (Arc a : this.getArcs()) {
