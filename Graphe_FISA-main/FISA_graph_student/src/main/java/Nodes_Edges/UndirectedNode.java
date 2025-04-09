@@ -69,5 +69,9 @@ public class UndirectedNode extends AbstractNode {
 		}
 	}
 
+	public void removeEdge(Edge e1) {
+		this.incidentEdges.remove(e1);
+	}
+
 	
 }

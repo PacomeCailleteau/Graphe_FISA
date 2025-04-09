@@ -1,6 +1,7 @@
 package AdjacencyList;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import GraphAlgorithms.GraphTools;
@@ -120,8 +121,8 @@ public class AdjacencyListUndirectedGraph {
      * @return true if there is an edge between x and y
      */
     public boolean isEdge(UndirectedNode x, UndirectedNode y) {      	
-        // A completer
-    	return true;
+        Edge e1 = new Edge(x, y);
+    	return this.edges.contains(e1);
     }
 
     /**
@@ -129,7 +130,11 @@ public class AdjacencyListUndirectedGraph {
      */
     public void removeEdge(UndirectedNode x, UndirectedNode y) {
     	if(isEdge(x,y)){
-    		// A completer
+            Edge e1 = new Edge(x, y);
+            this.edges.remove(e1);
+            this.getNodeOfList(x).removeEdge(e1);
+            this.getNodeOfList(y).removeEdge(e1);
+            this.nbEdges--;
     	}
     }
 
@@ -140,7 +145,11 @@ public class AdjacencyListUndirectedGraph {
      */
     public void addEdge(UndirectedNode x, UndirectedNode y) {
     	if(!isEdge(x,y)){
-    		// A completer
+    		Edge e1 = new Edge(x, y);
+            this.edges.add(e1);
+            this.getNodeOfList(x).addEdge(e1);
+            this.getNodeOfList(y).addEdge(e1);
+            this.nbEdges++;
     	}
     }
 
@@ -162,7 +171,12 @@ public class AdjacencyListUndirectedGraph {
      */
     public int[][] toAdjacencyMatrix() {
         int[][] matrix = new int[nbNodes][nbNodes];
-        // A completer
+        for (Edge e : edges) {
+            int x = e.getFirstNode().getLabel();
+            int y = e.getSecondNode().getLabel();
+            matrix[x][y] = 1;
+            matrix[y][x] = 1;
+        }
         return matrix;
     }
 
@@ -190,11 +204,32 @@ public class AdjacencyListUndirectedGraph {
         int[][] mat = GraphTools.generateGraphData(10, 20, false, true, false, 100001);
         GraphTools.afficherMatrix(mat);
         AdjacencyListUndirectedGraph al = new AdjacencyListUndirectedGraph(mat);
-        System.out.println(al);        
-        System.out.println("(n_2,n_5) is it in the graph ? " +  al.isEdge(al.getNodes().get(2), al.getNodes().get(5)));
-        
-        
-        // A completer
+        System.out.println(al);
+        System.out.println("Shoud be false : (n_2,n_5) is it in the graph ? " +  al.isEdge(al.getNodes().get(2), al.getNodes().get(5)));
+
+        UndirectedNode n_0 = new UndirectedNode(0);
+        UndirectedNode n_2 = new UndirectedNode(2);
+        UndirectedNode n_5 = new UndirectedNode(5);
+        al.addEdge(n_2, n_5);
+        al.addEdge(n_2, n_0);
+        System.out.println("Ajout des arrêtes entre 0 et 2 ainsi que 2 et 5.");
+
+        System.out.println(al);
+        System.out.println("Shoud be true : (n_2,n_5) is it in the graph ? " +  al.isEdge(al.getNodes().get(2), al.getNodes().get(5)));
+        System.out.println("Shoud be true : (n_0,n_2) is it in the graph ? " +  al.isEdge(al.getNodes().get(0), al.getNodes().get(2)));
+
+        al.removeEdge(n_5, n_2);
+        al.removeEdge(n_2, n_0);
+        System.out.println("Suppression des arrêtes entre 0 et 2 ainsi que 2 et 5.");
+
+        System.out.println("Shoud be false : (n_2,n_5) is it in the graph ? " +  al.isEdge(al.getNodes().get(2), al.getNodes().get(5)));
+        System.out.println("Shoud be false : (n_0,n_2) is it in the graph ? " +  al.isEdge(al.getNodes().get(0), al.getNodes().get(2)));
+
+        int[][] adjacencyMatrix = al.toAdjacencyMatrix();
+        for (int[] line : adjacencyMatrix) {
+            System.out.println(Arrays.toString(line));
+        }
+
     }
 
 }
