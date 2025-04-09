@@ -10,6 +10,9 @@ import java.util.List;
 
 import AdjacencyList.AdjacencyListDirectedGraph;
 
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
+
 /**
  * This class represents the directed graphs structured by an adjacency matrix.
  * We consider only simple graph
@@ -51,6 +54,45 @@ public class AdjacencyMatrixDirectedGraph {
 		this.nbNodes = g.getNbNodes();
 		this.nbArcs = g.getNbArcs();
 		this.matrix = g.toAdjacencyMatrix();
+	}
+
+	public void displayGraphStream() {
+		System.setProperty("org.graphstream.ui", "swing");
+
+		Graph graph = new SingleGraph("Directed Graph");
+
+		// Ajout des noeuds
+		for (int i = 0; i < nbNodes; i++) {
+			graph.addNode(String.valueOf(i)).setAttribute("ui.label", i);
+		}
+
+		// Ajout des arcs orientés
+		for (int from = 0; from < nbNodes; from++) {
+			for (int to = 0; to < nbNodes; to++) {
+				if (matrix[from][to] > 0) {
+					String edgeId = from + "->" + to;
+					if (graph.getEdge(edgeId) == null) {
+						graph.addEdge(edgeId, String.valueOf(from), String.valueOf(to), true);
+					}
+				}
+			}
+		}
+
+		graph.setAttribute("ui.stylesheet", """
+        node {
+            fill-color: #4FBDBA;
+            size: 25px;
+            text-size: 18px;
+            text-alignment: center;
+        }
+        edge {
+            arrow-shape: arrow;
+            arrow-size: 15px, 6px;
+            fill-color: #7D6B91;
+        }
+    """);
+
+		graph.display();
 	}
 
 	//--------------------------------------------------
@@ -127,6 +169,8 @@ public class AdjacencyMatrixDirectedGraph {
 		if (this.isArc(from, to)) {
 			this.matrix[from][to] = 0;
 			this.nbArcs--;
+		} else {
+			System.out.println("There is no arc from " + from + " to " + to);
 		}
 	}
 
@@ -137,6 +181,8 @@ public class AdjacencyMatrixDirectedGraph {
 		if (!this.isArc(from, to)) {
 			this.matrix[from][to] = 1;
 			this.nbArcs++;
+		} else {
+			System.out.println("There is already an arc from " + from + " to " + to);
 		}
 	}
 
@@ -145,10 +191,10 @@ public class AdjacencyMatrixDirectedGraph {
  	 */
 	public AdjacencyMatrixDirectedGraph computeInverse() {
 		AdjacencyMatrixDirectedGraph amInv = new AdjacencyMatrixDirectedGraph(this.matrix);
+		amInv.matrix = new int[this.nbNodes][this.nbNodes];
 		for (int i = 0; i < this.nbNodes; i++) {
 			for (int j = 0; j < this.nbNodes; j++) {
 				if (this.matrix[i][j] > 0) {
-					amInv.removeArc(i, j);
 					amInv.addArc(j, i);
 				}
 			}
@@ -209,5 +255,8 @@ public class AdjacencyMatrixDirectedGraph {
 		System.out.println("The graph\n" + am);
 		AdjacencyMatrixDirectedGraph amInv = am.computeInverse();
 		System.out.println("The inverse graph\n" + amInv);
+
+		am.displayGraphStream();
+		amInv.displayGraphStream();
 	}
 }
