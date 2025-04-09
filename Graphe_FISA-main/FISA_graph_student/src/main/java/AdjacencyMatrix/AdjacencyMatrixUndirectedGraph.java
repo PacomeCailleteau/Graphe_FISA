@@ -134,7 +134,7 @@ public class AdjacencyMatrixUndirectedGraph {
      	* adds the edge (x,y) if there is not already one.
      	*/
 	public void addEdge(int x, int y) {
-		if(isEdge(x, y)) {
+		if(!isEdge(x, y)) {
 			this.matrix[x][y] = 1;
 			this.matrix[y][x] = 1;
 			changeNbEdges(1);
@@ -174,18 +174,21 @@ public class AdjacencyMatrixUndirectedGraph {
 		for (Integer integer : t2) {
 			System.out.print(integer + ", ");
 		}
+
+		// Is there an edge between 0 and 2 ?
+		System.out.println("\n\nisEdge(0, 2) ? " + am.isEdge(0, 2));
 		
-		// We add three edges {3,5} :
+		// We add one edge {3,5} :
 		System.out.println("\n\nisEdge(3, 5) ? " + am.isEdge(3, 5));
-		for(int i = 0; i<3;i++)
-			am.addEdge(3, 5);
-		
+		am.addEdge(3, 5);
 		System.out.println("\n"+am);
-		
+		System.out.println("\n\nisEdge(3, 5) ? " + am.isEdge(3, 5));
+
+		// We remove the edge {3,5} :
 		System.out.println("\nAfter removing one edge {3,5} :");
 		am.removeEdge(3,5);
 		System.out.println(am);
-		// A completer
+		System.out.println("\n\nisEdge(3, 5) ? " + am.isEdge(3, 5));
 	}
 
 }
