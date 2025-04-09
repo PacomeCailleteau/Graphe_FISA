@@ -1,6 +1,7 @@
 package AdjacencyList;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -129,15 +130,20 @@ public class AdjacencyListDirectedGraph {
 	 * @return true if arc (from,to) exists in the graph
  	 */
     public boolean isArc(DirectedNode from, DirectedNode to) {
-    	// A completer
-    	return false;
+    	Arc a = new Arc(from, to);
+    	return this.arcs.contains(a);
     }
 
     /**
 	 * Removes the arc (from,to), if it exists. And remove this arc and the inverse in the list of arcs from the two extremities (nodes)
  	 */
     public void removeArc(DirectedNode from, DirectedNode to) {
-    	// A completer
+    	if (isArc(from, to)) {
+            Arc a = new Arc(from, to);
+            this.arcs.remove(a);
+            this.getNodeOfList(from).removeArc(a);
+            this.getNodeOfList(to).removeArc(a);
+        }
     }
 
     /**
@@ -146,7 +152,12 @@ public class AdjacencyListDirectedGraph {
   	* On non-valued graph, every arc has a weight equal to 0.
  	*/
     public void addArc(DirectedNode from, DirectedNode to) {
-    	// A completer
+    	if (!isArc(from, to)) {
+            Arc a = new Arc(from, to);
+            this.arcs.add(a);
+            this.getNodeOfList(from).addArc(a);
+            this.getNodeOfList(to).addArc(a);
+        }
     }
 
     //--------------------------------------------------
@@ -165,7 +176,11 @@ public class AdjacencyListDirectedGraph {
      */
     public int[][] toAdjacencyMatrix() {
         int[][] matrix = new int[nbNodes][nbNodes];
-     // A completer
+        for (Arc a : arcs) {
+            int from = a.getFirstNode().getLabel();
+            int to = a.getSecondNode().getLabel();
+            matrix[from][to] = 1;
+        }
         return matrix;
     }
 
@@ -173,8 +188,22 @@ public class AdjacencyListDirectedGraph {
 	 * @return a new graph implementing IDirectedGraph interface which is the inverse graph of this
  	 */
     public AdjacencyListDirectedGraph computeInverse() {
-        AdjacencyListDirectedGraph g = new AdjacencyListDirectedGraph(this); // creation of a copy of the current graph. 
-        // A completer
+       /* int[][] adjacencyMatrix = this.toAdjacencyMatrix();
+        for (int line = 0; line < adjacencyMatrix.length; line++) {
+            for (int col = 0; col < adjacencyMatrix[line].length; col++) {
+                if (adjacencyMatrix[line][col] > 0) {
+                    adjacencyMatrix[line][col] = 0;
+                    adjacencyMatrix[col][line] = 1;
+                }
+            }
+        }*/
+        AdjacencyListDirectedGraph g = new AdjacencyListDirectedGraph(this);
+        g.arcs = new ArrayList<>();
+        for (Arc a : this.getArcs()) {
+            DirectedNode from = a.getFirstNode();
+            DirectedNode to = a.getSecondNode();
+            g.addArc(to, from);
+        }
         return g;
     }
     
@@ -206,8 +235,48 @@ public class AdjacencyListDirectedGraph {
         int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, false, 100001);
         GraphTools.afficherMatrix(Matrix);
         AdjacencyListDirectedGraph al = new AdjacencyListDirectedGraph(Matrix);
+        System.out.println("Seed used to have the following results : 100001");
         System.out.println(al);
-        System.out.println("(n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
-        // A completer
+        System.out.println("Should be true : (n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
+        System.out.println("Should be false : (n_3,n_7) is it in the graph ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
+
+        DirectedNode n_3 = new DirectedNode(3);
+        DirectedNode n_7 = new DirectedNode(7);
+        al.removeArc(n_3, n_7);
+        System.out.println("Should be true : (n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
+        System.out.println("Should be false : (n_3,n_7) is it in the graph ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
+
+        al.removeArc(n_7, n_3);
+        System.out.println("Should be false : (n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
+        System.out.println("Should be false : (n_3,n_7) is it in the graph ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
+
+        al.addArc(n_3, n_7);
+        System.out.println("Should be false : (n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
+        System.out.println("Should be true : (n_3,n_7) is it in the graph ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
+
+        al.addArc(n_3, n_7);
+        System.out.println("Should be false : (n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
+        System.out.println("Should be true : (n_3,n_7) is it in the graph ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
+
+        al.addArc(n_7, n_3);
+        System.out.println("Should be true : (n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
+        System.out.println("Should be true : (n_3,n_7) is it in the graph ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
+
+        al.removeArc(n_3, n_7);
+        System.out.println("Should be true : (n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
+        System.out.println("Should be false : (n_3,n_7) is it in the graph ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
+
+        int[][] adjacencyMatrix = al.toAdjacencyMatrix();
+        for (int[] line : adjacencyMatrix) {
+            System.out.println(Arrays.toString(line));
+        }
+
+        AdjacencyListDirectedGraph reversedAl = al.computeInverse();
+        int[][] reversedAlAdjacencyMatrix = reversedAl.toAdjacencyMatrix();
+        System.out.println("Reversed matrix");
+        for (int[] line : reversedAlAdjacencyMatrix) {
+            System.out.println(Arrays.toString(line));
+        }
+
     }
 }

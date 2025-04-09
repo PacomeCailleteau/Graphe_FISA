@@ -91,6 +91,13 @@ public class DirectedNode extends AbstractNode {
 		}
 				
 	}
+
+	public void removeArc(Arc a) {
+		DirectedNode from = a.getFirstNode();
+		DirectedNode to = a.getSecondNode();
+		from.getArcSucc().remove(a);
+		to.getArcPred().remove(a);
+	}
 	
 
 }

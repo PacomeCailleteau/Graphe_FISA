@@ -204,6 +204,7 @@ public class AdjacencyListUndirectedGraph {
         int[][] mat = GraphTools.generateGraphData(10, 20, false, true, false, 100001);
         GraphTools.afficherMatrix(mat);
         AdjacencyListUndirectedGraph al = new AdjacencyListUndirectedGraph(mat);
+        System.out.println("Seed used to have the following results : 100001");
         System.out.println(al);
         System.out.println("Shoud be false : (n_2,n_5) is it in the graph ? " +  al.isEdge(al.getNodes().get(2), al.getNodes().get(5)));
 
