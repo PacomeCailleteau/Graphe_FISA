@@ -2,6 +2,8 @@ package AdjacencyMatrix;
 
 import GraphAlgorithms.GraphTools;
 
+import java.util.List;
+
 
 public class AdjacencyMatrixUndirectedValuedGraph extends AdjacencyMatrixUndirectedGraph {
 
@@ -30,7 +32,20 @@ public class AdjacencyMatrixUndirectedValuedGraph extends AdjacencyMatrixUndirec
      * adds the edge (x,y,cost). If there is already one initial cost, we replace it.
      */
 	public void addEdge(int x, int y, int cost ) {
-		// A completer
+		if(!isEdge(x, y)) {
+			this.matrix[x][y] = cost;
+			this.matrix[y][x] = cost;
+			changeNbEdges(1);
+		}
+	}
+
+	public Integer getCost(int x, int y) {
+		if (this.isEdge(x, y)) {
+			return this.matrix[x][y];
+		} else {
+			System.out.println("There is no edge between " + x + " and " + y);
+			return null;
+		}
 	}
 	
 	public String toString() {
@@ -50,7 +65,27 @@ public class AdjacencyMatrixUndirectedValuedGraph extends AdjacencyMatrixUndirec
 		int[][] matrixValued = GraphTools.generateValuedGraphData(10, false, true, true, false, 100001);
 		AdjacencyMatrixUndirectedValuedGraph am = new AdjacencyMatrixUndirectedValuedGraph(matrixValued);
 		System.out.println(am);
-		// A completer
+
+		// Is there an edge between 0 and 2 ?
+		System.out.println("\n\nShould be true : isEdge(0, 2) ? " + am.isEdge(0, 2));
+		Integer cost = am.getCost(0, 2);
+		System.out.println("Should be 8 : Cost of the edge {0,2} : " + cost);
+
+		// We add one edge {3,5} :
+		System.out.println("\n\nShould be false : isEdge(3, 5) ? " + am.isEdge(3, 5));
+		// We add one edge {3,5} :
+		System.out.println("\n\nAdding one edge {3,5} with cost 77 :");
+		am.addEdge(3, 5, 77);
+		System.out.println("\n\nShould be true : isEdge(3, 5) ? " + am.isEdge(3, 5));
+		cost = am.getCost(3, 5);
+		System.out.println("Should be 77 : Cost of the edge {3,5} : " + cost);
+		System.out.println(am);
+
+		// We remove the edge {3,5} :
+		System.out.println("\nAfter removing one edge {3,5} :");
+		am.removeEdge(3,5);
+		System.out.println("\n\nShould be false : isEdge(3, 5) ? " + am.isEdge(3, 5));
+		System.out.println(am);
 	}
 
 }

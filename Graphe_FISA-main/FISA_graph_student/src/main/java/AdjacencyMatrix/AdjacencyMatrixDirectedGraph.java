@@ -218,6 +218,7 @@ public class AdjacencyMatrixDirectedGraph {
 	public static void main(String[] args) {
 		int[][] matrix2 = GraphTools.generateGraphData(10, 20, false, false, false, 100001);
 		AdjacencyMatrixDirectedGraph am = new AdjacencyMatrixDirectedGraph(matrix2);
+		System.out.println("Seed used to have the following results : 100001");
 		System.out.println(am);
 		System.out.println("n = "+am.getNbNodes()+ "\nm = "+am.getNbArcs() +"\n");
 		

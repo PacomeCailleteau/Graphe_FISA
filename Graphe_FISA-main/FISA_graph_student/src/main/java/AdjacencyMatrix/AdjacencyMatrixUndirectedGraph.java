@@ -73,13 +73,6 @@ public class AdjacencyMatrixUndirectedGraph {
         return this.nbNodes;
     }
 
-	/**
-	 * @param value
-	 */
-	public void changeNbNodes(int value) {
-		this.nbNodes += value;
-	}
-
     /**
 	 * @return the number of edges in the graph
  	 */	
@@ -165,6 +158,7 @@ public class AdjacencyMatrixUndirectedGraph {
 	public static void main(String[] args) {
 		int[][] mat2 = GraphTools.generateGraphData(10, 35, false, true, false, 100001);
 		AdjacencyMatrixUndirectedGraph am = new AdjacencyMatrixUndirectedGraph(mat2);
+		System.out.println("Seed used to have the following results : 100001");
 		System.out.println(am);
 		System.out.println("n = "+am.getNbNodes()+ "\nm = "+am.getNbEdges() +"\n");
 		
