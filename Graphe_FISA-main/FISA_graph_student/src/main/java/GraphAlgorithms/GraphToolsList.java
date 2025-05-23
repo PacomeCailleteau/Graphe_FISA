@@ -57,11 +57,39 @@ public class GraphToolsList  extends GraphTools {
 		return explored;
 	}
 
+	private static UndirectedNode getNextNode(UndirectedNode node, Edge edge) {
+		UndirectedNode firstNode = edge.getFirstNode();
+		if (Objects.equals(firstNode, node)) {
+			return edge.getSecondNode();
+		}
+		return firstNode;
+	}
+
+	public static List<UndirectedNode> BFS(UndirectedNode firstNodeToVisit) {
+		List<UndirectedNode> explored = new ArrayList<>();
+		Queue<UndirectedNode> queue = new LinkedList<>();
+		queue.add(firstNodeToVisit);
+		while (!queue.isEmpty()) {
+			UndirectedNode node = queue.poll();
+			explored.add(node);
+			List<Edge> incidentEdges = node.getIncidentEdges();
+			for (Edge incidentEdge : incidentEdges) {
+				UndirectedNode nextNode = getNextNode(node, incidentEdge);
+				if (!explored.contains(nextNode) && !queue.contains(nextNode)) {
+					queue.add(nextNode);
+				}
+			}
+		}
+		return explored;
+	}
+
 
 	public static void main(String[] args) {
 		int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, true, 100001);
+		int[][] matrixValued = GraphTools.generateValuedGraphData(10, false, true, true, false, 100001);
 		GraphTools.afficherMatrix(Matrix);
 		AdjacencyListDirectedGraph al = new AdjacencyListDirectedGraph(Matrix);
+		AdjacencyListUndirectedValuedGraph alVal = new AdjacencyListUndirectedValuedGraph(matrixValued);
 		System.out.println(al);
 
 
@@ -70,5 +98,11 @@ public class GraphToolsList  extends GraphTools {
 		List<DirectedNode> bfs = BFS(first);
 		System.out.println(bfs);
 		GraphTools.representationGraphique(Matrix);
+
+		UndirectedNode nodeVal = new UndirectedNode(7);
+		UndirectedNode firstUndirectedNode = alVal.getNodeOfList(nodeVal);
+		List<UndirectedNode> bfsUndirectedNode = BFS(firstUndirectedNode);
+		System.out.println(bfsUndirectedNode);
+		GraphTools.representationGraphique(matrixValued);
 	}
 }
