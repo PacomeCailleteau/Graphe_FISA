@@ -1,5 +1,10 @@
 package GraphAlgorithms;
 
+import org.graphstream.graph.Edge;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
+import org.graphstream.graph.implementations.SingleGraph;
+
 import java.util.*;
 
 public class GraphTools {
@@ -201,6 +206,33 @@ public class GraphTools {
 			System.out.println();
 		}
 		System.out.println();
+	}
+
+	public static void representationGraphique(int[][] matrix) {
+		System.setProperty("org.graphstream.ui", "swing");
+		Graph graph = new SingleGraph("The cool graph :)<");
+
+		for (int i = 0; i < matrix.length; i++) {
+			Node node = graph.addNode(String.valueOf(i));
+			node.setAttribute("ui.label", String.valueOf(i));
+			node.setAttribute("ui.style", "fill-color: red;");
+			node.setAttribute("ui.size", 20);
+			node.setAttribute("ui.class", "node");
+		}
+
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix.length; j++) {
+				if (matrix[i][j] != 0) {
+					Edge edge = graph.addEdge(i + "->" + j, String.valueOf(i), String.valueOf(j), true);
+					edge.setAttribute("ui.label", String.valueOf(matrix[i][j]));
+					edge.setAttribute("ui.style", "fill-color: blue;");
+					edge.setAttribute("ui.class", "edge");
+					edge.setAttribute("ui.size", 2);
+				}
+			}
+		}
+
+		graph.display();
 	}
 
 

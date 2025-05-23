@@ -1,18 +1,15 @@
 package GraphAlgorithms;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import AdjacencyList.AdjacencyListDirectedGraph;
 import AdjacencyList.AdjacencyListDirectedValuedGraph;
+import AdjacencyList.AdjacencyListUndirectedGraph;
 import AdjacencyList.AdjacencyListUndirectedValuedGraph;
 import Collection.Triple;
-import Nodes_Edges.DirectedNode;
-import Nodes_Edges.UndirectedNode;
+import Nodes_Edges.*;
 
 public class GraphToolsList  extends GraphTools {
 
@@ -42,7 +39,23 @@ public class GraphToolsList  extends GraphTools {
 	// 				Methods
 	// ------------------------------------------
 
-	// A completer
+	public static List<DirectedNode> BFS(DirectedNode firstNodeToVisit) {
+		List<DirectedNode> explored = new ArrayList<>();
+		Queue<DirectedNode> queue = new LinkedList<>();
+		queue.add(firstNodeToVisit);
+		while (!queue.isEmpty()) {
+			DirectedNode node = queue.poll();
+			explored.add(node);
+			List<Arc> arcSucc = node.getArcSucc();
+			for (Arc arc : arcSucc) {
+				DirectedNode secondNode = arc.getSecondNode();
+				if (!explored.contains(secondNode) && !queue.contains(secondNode)) {
+					queue.add(secondNode);
+				}
+			}
+		}
+		return explored;
+	}
 
 
 	public static void main(String[] args) {
@@ -51,6 +64,11 @@ public class GraphToolsList  extends GraphTools {
 		AdjacencyListDirectedGraph al = new AdjacencyListDirectedGraph(Matrix);
 		System.out.println(al);
 
-		// A completer
+
+		DirectedNode node = new DirectedNode(7);
+		DirectedNode first = al.getNodeOfList(node);
+		List<DirectedNode> bfs = BFS(first);
+		System.out.println(bfs);
+		GraphTools.representationGraphique(Matrix);
 	}
 }
