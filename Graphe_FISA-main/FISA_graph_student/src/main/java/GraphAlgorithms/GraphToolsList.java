@@ -41,16 +41,16 @@ public class GraphToolsList  extends GraphTools {
 
 	public static List<DirectedNode> BFS(DirectedNode firstNodeToVisit) {
 		List<DirectedNode> explored = new ArrayList<>();
-		Queue<DirectedNode> queue = new LinkedList<>();
-		queue.add(firstNodeToVisit);
-		while (!queue.isEmpty()) {
-			DirectedNode node = queue.poll();
+		Queue<DirectedNode> fifo = new LinkedList<>();
+		fifo.add(firstNodeToVisit);
+		while (!fifo.isEmpty()) {
+			DirectedNode node = fifo.poll();
 			explored.add(node);
 			List<Arc> arcSucc = node.getArcSucc();
 			for (Arc arc : arcSucc) {
 				DirectedNode secondNode = arc.getSecondNode();
-				if (!explored.contains(secondNode) && !queue.contains(secondNode)) {
-					queue.add(secondNode);
+				if (!explored.contains(secondNode) && !fifo.contains(secondNode)) {
+					fifo.add(secondNode);
 				}
 			}
 		}
@@ -67,20 +67,44 @@ public class GraphToolsList  extends GraphTools {
 
 	public static List<UndirectedNode> BFS(UndirectedNode firstNodeToVisit) {
 		List<UndirectedNode> explored = new ArrayList<>();
-		Queue<UndirectedNode> queue = new LinkedList<>();
-		queue.add(firstNodeToVisit);
-		while (!queue.isEmpty()) {
-			UndirectedNode node = queue.poll();
+		Queue<UndirectedNode> fifo = new LinkedList<>();
+		fifo.add(firstNodeToVisit);
+		while (!fifo.isEmpty()) {
+			UndirectedNode node = fifo.poll();
 			explored.add(node);
 			List<Edge> incidentEdges = node.getIncidentEdges();
 			for (Edge incidentEdge : incidentEdges) {
 				UndirectedNode nextNode = getNextNode(node, incidentEdge);
-				if (!explored.contains(nextNode) && !queue.contains(nextNode)) {
-					queue.add(nextNode);
+				if (!explored.contains(nextNode) && !fifo.contains(nextNode)) {
+					fifo.add(nextNode);
 				}
 			}
 		}
 		return explored;
+	}
+
+	public static void explorerGraphe(AdjacencyListDirectedGraph g) {
+		int n = g.getNbNodes();
+		visite = new int[n];
+
+		for (DirectedNode node : g.getNodes()) {
+			if (visite[node.getLabel()] == 0) {
+				explorerSommet(node);
+			}
+		}
+	}
+
+	private static void explorerSommet(DirectedNode node) {
+		int label = node.getLabel();
+		visite[label] = 1;
+		System.out.print(label + " ");
+
+		for (Arc arc : node.getArcSucc()) {
+			DirectedNode voisin = arc.getSecondNode();
+			if (visite[voisin.getLabel()] == 0) {
+				explorerSommet(voisin);
+			}
+		}
 	}
 
 
@@ -96,13 +120,17 @@ public class GraphToolsList  extends GraphTools {
 		DirectedNode node = new DirectedNode(7);
 		DirectedNode first = al.getNodeOfList(node);
 		List<DirectedNode> bfs = BFS(first);
-		System.out.println(bfs);
-		GraphTools.representationGraphique(Matrix);
+		System.out.println("BFS Directed nodes : " + bfs);
+		GraphTools.representationGraphique(Matrix, true);
 
 		UndirectedNode nodeVal = new UndirectedNode(7);
 		UndirectedNode firstUndirectedNode = alVal.getNodeOfList(nodeVal);
 		List<UndirectedNode> bfsUndirectedNode = BFS(firstUndirectedNode);
-		System.out.println(bfsUndirectedNode);
-		GraphTools.representationGraphique(matrixValued);
+		System.out.println("BFS Undirected nodes : " + bfsUndirectedNode);
+		GraphTools.representationGraphique(matrixValued, false);
+
+		System.out.print("DFS récursif : ");
+		explorerGraphe(al);
+		System.out.println();
 	}
 }

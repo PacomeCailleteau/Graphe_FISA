@@ -230,7 +230,5 @@ public class AdjacencyListUndirectedGraph {
         for (int[] line : adjacencyMatrix) {
             System.out.println(Arrays.toString(line));
         }
-
     }
-
 }

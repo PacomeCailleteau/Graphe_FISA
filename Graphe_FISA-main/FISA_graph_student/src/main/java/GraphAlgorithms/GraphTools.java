@@ -208,32 +208,34 @@ public class GraphTools {
 		System.out.println();
 	}
 
-	public static void representationGraphique(int[][] matrix) {
+	public static void representationGraphique(int[][] matrix, boolean oriented) {
 		System.setProperty("org.graphstream.ui", "swing");
-		Graph graph = new SingleGraph("The cool graph :)<");
+		Graph graph = new SingleGraph(oriented ? "Graphe orienté" : "Graphe non orienté");
 
 		for (int i = 0; i < matrix.length; i++) {
 			Node node = graph.addNode(String.valueOf(i));
 			node.setAttribute("ui.label", String.valueOf(i));
 			node.setAttribute("ui.style", "fill-color: red;");
 			node.setAttribute("ui.size", 20);
-			node.setAttribute("ui.class", "node");
 		}
 
 		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix.length; j++) {
+			for (int j = (oriented ? 0 : i); j < matrix.length; j++) {
 				if (matrix[i][j] != 0) {
-					Edge edge = graph.addEdge(i + "->" + j, String.valueOf(i), String.valueOf(j), true);
-					edge.setAttribute("ui.label", String.valueOf(matrix[i][j]));
-					edge.setAttribute("ui.style", "fill-color: blue;");
-					edge.setAttribute("ui.class", "edge");
-					edge.setAttribute("ui.size", 2);
+					String edgeId = i + (oriented ? "->" : "--") + j;
+					if (oriented || graph.getEdge(j + "--" + i) == null) {
+						Edge edge = graph.addEdge(edgeId, String.valueOf(i), String.valueOf(j), oriented);
+						edge.setAttribute("ui.label", String.valueOf(matrix[i][j]));
+						edge.setAttribute("ui.style", "fill-color: blue;");
+						edge.setAttribute("ui.size", 2);
+					}
 				}
 			}
 		}
 
 		graph.display();
 	}
+
 
 
 	/**
