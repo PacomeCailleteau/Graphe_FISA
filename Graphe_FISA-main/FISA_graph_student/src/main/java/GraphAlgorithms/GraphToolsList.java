@@ -39,18 +39,23 @@ public class GraphToolsList  extends GraphTools {
 	// 				Methods
 	// ------------------------------------------
 
-	public static List<DirectedNode> BFS(DirectedNode firstNodeToVisit) {
+	public static List<DirectedNode> BFS(AdjacencyListDirectedGraph g) {
+		List<DirectedNode> nodes = g.getNodes();
 		List<DirectedNode> explored = new ArrayList<>();
 		Queue<DirectedNode> fifo = new LinkedList<>();
-		fifo.add(firstNodeToVisit);
-		while (!fifo.isEmpty()) {
-			DirectedNode node = fifo.poll();
-			explored.add(node);
-			List<Arc> arcSucc = node.getArcSucc();
-			for (Arc arc : arcSucc) {
-				DirectedNode secondNode = arc.getSecondNode();
-				if (!explored.contains(secondNode) && !fifo.contains(secondNode)) {
-					fifo.add(secondNode);
+		for (DirectedNode directedNode : nodes) { // Pour récupérer aussi les sommets qui sont des sources ou ceux qui sont isolés
+			if (!explored.contains(directedNode)) {
+				fifo.add(directedNode);
+			}
+			while (!fifo.isEmpty()) {
+				DirectedNode node = fifo.poll();
+				explored.add(node);
+				List<Arc> arcSucc = node.getArcSucc();
+				for (Arc arc : arcSucc) {
+					DirectedNode secondNode = arc.getSecondNode();
+					if (!explored.contains(secondNode) && !fifo.contains(secondNode)) {
+						fifo.add(secondNode);
+					}
 				}
 			}
 		}
@@ -65,18 +70,22 @@ public class GraphToolsList  extends GraphTools {
 		return firstNode;
 	}
 
-	public static List<UndirectedNode> BFS(UndirectedNode firstNodeToVisit) {
+	public static List<UndirectedNode> BFS(AdjacencyListUndirectedValuedGraph g) {
 		List<UndirectedNode> explored = new ArrayList<>();
 		Queue<UndirectedNode> fifo = new LinkedList<>();
-		fifo.add(firstNodeToVisit);
-		while (!fifo.isEmpty()) {
-			UndirectedNode node = fifo.poll();
-			explored.add(node);
-			List<Edge> incidentEdges = node.getIncidentEdges();
-			for (Edge incidentEdge : incidentEdges) {
-				UndirectedNode nextNode = getNextNode(node, incidentEdge);
-				if (!explored.contains(nextNode) && !fifo.contains(nextNode)) {
-					fifo.add(nextNode);
+		for (UndirectedNode undirectedNode : g.getNodes()) {
+			if (!explored.contains(undirectedNode)) {
+				fifo.add(undirectedNode);
+			}
+			while (!fifo.isEmpty()) {
+				UndirectedNode node = fifo.poll();
+				explored.add(node);
+				List<Edge> incidentEdges = node.getIncidentEdges();
+				for (Edge incidentEdge : incidentEdges) {
+					UndirectedNode nextNode = getNextNode(node, incidentEdge);
+					if (!explored.contains(nextNode) && !fifo.contains(nextNode)) {
+						fifo.add(nextNode);
+					}
 				}
 			}
 		}
@@ -117,15 +126,11 @@ public class GraphToolsList  extends GraphTools {
 		System.out.println(al);
 
 
-		DirectedNode node = new DirectedNode(7);
-		DirectedNode first = al.getNodeOfList(node);
-		List<DirectedNode> bfs = BFS(first);
+		List<DirectedNode> bfs = BFS(al);
 		System.out.println("BFS Directed nodes : " + bfs);
 		GraphTools.representationGraphique(Matrix, true);
 
-		UndirectedNode nodeVal = new UndirectedNode(7);
-		UndirectedNode firstUndirectedNode = alVal.getNodeOfList(nodeVal);
-		List<UndirectedNode> bfsUndirectedNode = BFS(firstUndirectedNode);
+		List<UndirectedNode> bfsUndirectedNode = BFS(alVal);
 		System.out.println("BFS Undirected nodes : " + bfsUndirectedNode);
 		GraphTools.representationGraphique(matrixValued, false);
 
