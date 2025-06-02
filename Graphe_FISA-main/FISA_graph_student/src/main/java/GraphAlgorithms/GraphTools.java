@@ -211,6 +211,7 @@ public class GraphTools {
 	public static void representationGraphique(int[][] matrix, boolean oriented) {
 		System.setProperty("org.graphstream.ui", "swing");
 		Graph graph = new SingleGraph(oriented ? "Graphe orienté" : "Graphe non orienté");
+		String edgeSymbol = oriented ? "->" : "--";
 
 		for (int i = 0; i < matrix.length; i++) {
 			Node node = graph.addNode(String.valueOf(i));
@@ -220,9 +221,10 @@ public class GraphTools {
 		}
 
 		for (int i = 0; i < matrix.length; i++) {
-			for (int j = (oriented ? 0 : i); j < matrix.length; j++) {
+			int startIndex = oriented ? 0 : i;
+			for (int j = startIndex; j < matrix.length; j++) {
 				if (matrix[i][j] != 0) {
-					String edgeId = i + (oriented ? "->" : "--") + j;
+					String edgeId = i + edgeSymbol + j;
 					if (oriented || graph.getEdge(j + "--" + i) == null) {
 						Edge edge = graph.addEdge(edgeId, String.valueOf(i), String.valueOf(j), oriented);
 						edge.setAttribute("ui.label", String.valueOf(matrix[i][j]));
