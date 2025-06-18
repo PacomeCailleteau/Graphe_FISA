@@ -50,7 +50,7 @@ public class GraphToolsList  extends GraphTools {
 		}
 
 		val[start.getLabel()] = 0;
-		pred[start.getLabel()] = start;
+		pred[start.getLabel()] = null;
 
 		int markedCount = 0;
 

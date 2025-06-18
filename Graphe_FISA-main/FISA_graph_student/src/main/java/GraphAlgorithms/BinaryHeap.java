@@ -27,8 +27,33 @@ public class BinaryHeap {
         return pos == 0;
     }
 
+    public int getParentPos(int pos) {
+        return (pos-1)/2;
+    }
+
+    public int getParent(int pos) {
+        return nodes[getParentPos(pos)];
+    }
+
     public void insert(int element) {
-    	// A completer
+        if (pos+1 >= nodes.length) {
+            resize();
+        }
+    	nodes[pos] = element;
+        pos++;
+
+        remonterElement(element);
+    }
+
+    private void remonterElement(int element) {
+        int currentElementPos = pos-1;
+        int currentParent = getParent(currentElementPos);
+
+        while (currentParent > element) {
+            swap(currentParent, element);
+            currentElementPos = getParentPos(currentElementPos);
+            currentParent = getParent(currentElementPos);
+        }
     }
 
     public int remove() {
@@ -96,6 +121,7 @@ public class BinaryHeap {
     }
 
     public static void main(String[] args) {
+        System.out.println((9/2));
         BinaryHeap jarjarBin = new BinaryHeap();
         System.out.println(jarjarBin.isEmpty()+"\n");
         int k = 20;
