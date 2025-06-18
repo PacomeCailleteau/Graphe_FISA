@@ -16,8 +16,8 @@ public class GraphToolsList  extends GraphTools {
 	private static int[] visite;
 	private static int[] debut;
 	private static int[] fin;
-	private static List<Integer> order_CC;
-	private static int cpt=0;
+	private static int cpt;
+	private static List<Integer> ordreFin = new ArrayList<>();
 
 	//--------------------------------------------------
 	// 				Constructors
@@ -143,15 +143,55 @@ public class GraphToolsList  extends GraphTools {
 	public static void explorerGraphe(AdjacencyListDirectedGraph g) {
 		int n = g.getNbNodes();
 		visite = new int[n];
+		debut = new int[n];
+		fin = new int[n];
+		cpt = 0;
 
 		for (DirectedNode node : g.getNodes()) {
 			if (visite[node.getLabel()] == 0) {
 				explorerSommet(node);
 			}
 		}
+		System.out.println("Ordre de fin : " + ordreFin);
 	}
 
 	private static void explorerSommet(DirectedNode node) {
+		int label = node.getLabel();
+		visite[label] = 1; // en cours de visite
+		debut[label] = cpt++;
+		System.out.println("Début de " + label + " : " + debut[label]);
+
+		for (Arc arc : node.getArcSucc()) {
+			DirectedNode voisin = arc.getSecondNode();
+			int voisinLabel = voisin.getLabel();
+			if (visite[voisinLabel] == 0) { // pas encore visité
+				explorerSommet(voisin);
+			}
+		}
+		visite[label] = 2; // totalement visité
+		fin[label] = cpt++;
+		System.out.println("Fin de " + label + " : " + fin[label]);
+		ordreFin.add(label);
+	}
+
+	public static void explorerGrapheBis(AdjacencyListDirectedGraph g) {
+		int n = g.getNbNodes();
+		visite = new int[n];
+		System.out.println("\nComposantes fortement connexes :");
+
+		Collections.reverse(ordreFin); // ordre décroissant des fins
+		System.out.println("Ordre de fin inversé : " + ordreFin);
+
+		for (int label : ordreFin) {
+			if (visite[label] == 0) {
+				System.out.print("CFC : ");
+				explorerSommetBis(g.getNodeOfList(new DirectedNode(label)));
+				System.out.println();
+			}
+		}
+	}
+
+	private static void explorerSommetBis(DirectedNode node) {
 		int label = node.getLabel();
 		visite[label] = 1;
 		System.out.print(label + " ");
@@ -159,11 +199,12 @@ public class GraphToolsList  extends GraphTools {
 		for (Arc arc : node.getArcSucc()) {
 			DirectedNode voisin = arc.getSecondNode();
 			if (visite[voisin.getLabel()] == 0) {
-				explorerSommet(voisin);
+				explorerSommetBis(voisin);
 			}
 		}
-	}
 
+		visite[label] = 2;
+	}
 
 	public static void main(String[] args) {
 		int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, true, 100001);
@@ -172,27 +213,41 @@ public class GraphToolsList  extends GraphTools {
 		AdjacencyListDirectedGraph al = new AdjacencyListDirectedGraph(Matrix);
 		AdjacencyListDirectedGraph valuedDirectedGraph = new AdjacencyListDirectedValuedGraph(Matrix);
 		AdjacencyListUndirectedValuedGraph alVal = new AdjacencyListUndirectedValuedGraph(matrixValued);
+		AdjacencyListDirectedGraph gInverse = al.computeInverse();
 		System.out.println(al);
 
 
 		List<DirectedNode> bfs = BFS(al);
 		System.out.println("BFS Directed nodes : " + bfs);
-		GraphTools.representationGraphique(Matrix, true);
+		// GraphTools.representationGraphique(Matrix, true);
 
 		List<UndirectedNode> bfsUndirectedNode = BFS(alVal);
 		System.out.println("BFS Undirected nodes : " + bfsUndirectedNode);
-		GraphTools.representationGraphique(matrixValued, false);
+		// GraphTools.representationGraphique(matrixValued, false);
 
 		System.out.print("DFS récursif : ");
 		explorerGraphe(al);
+		GraphTools.representationGraphique(Matrix, true);
 		System.out.println();
 
-		DirectedNode start = valuedDirectedGraph.getNodes().get(0);
-		Pair<int[], DirectedNode[]> dijkstra = dijkstra(valuedDirectedGraph, start);
-		int[] distances = dijkstra.getLeft();
-		DirectedNode[] predecessors = dijkstra.getRight();
-		System.out.println("Node's labels : " + Arrays.toString(valuedDirectedGraph.getNodes().stream().map(DirectedNode::getLabel).toArray()));
-		System.out.println("Distances from node 0 : " + Arrays.toString(distances));
-		System.out.println("Predecessors : " + Arrays.toString(predecessors));
-	}
+		System.out.print("Partie sur les composantes fortement connexes :\n");
+		// DFS classique pour remplir ordreFin
+		ordreFin = new ArrayList<>();
+		explorerGraphe(al);
+
+		// Inversion du graphe
+		AdjacencyListDirectedGraph gInv = new AdjacencyListDirectedGraph(al.computeInverse());
+
+		// Application du DFS sur le graphe inversé en suivant l'ordre de fin inversé
+		explorerGrapheBis(gInv);
+
+        DirectedNode start = valuedDirectedGraph.getNodes().get(0);
+        Pair<int[], DirectedNode[]> dijkstra = dijkstra(valuedDirectedGraph, start);
+        int[] distances = dijkstra.getLeft();
+        DirectedNode[] predecessors = dijkstra.getRight();
+        System.out.println("Node's labels : " + Arrays.toString(valuedDirectedGraph.getNodes().stream().map(DirectedNode::getLabel).toArray()));
+        System.out.println("Distances from node 0 : " + Arrays.toString(distances));
+        System.out.println("Predecessors : " + Arrays.toString(predecessors));
+
+    }
 }
