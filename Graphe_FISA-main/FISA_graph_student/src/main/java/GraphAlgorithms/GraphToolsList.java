@@ -1,18 +1,16 @@
 package GraphAlgorithms;
 
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 import AdjacencyList.AdjacencyListDirectedGraph;
 import AdjacencyList.AdjacencyListDirectedValuedGraph;
-import AdjacencyList.AdjacencyListUndirectedGraph;
 import AdjacencyList.AdjacencyListUndirectedValuedGraph;
-import Collection.Triple;
 import Nodes_Edges.*;
+import Collection.Pair;
 
 public class GraphToolsList  extends GraphTools {
 
+	public static final int MAX_INT_DIV_2 = Integer.MAX_VALUE / 2;
 	private static int _DEBBUG =0;
 
 	private static int[] visite;
@@ -38,6 +36,56 @@ public class GraphToolsList  extends GraphTools {
 	// ------------------------------------------
 	// 				Methods
 	// ------------------------------------------
+
+	public static Pair<int[], DirectedNode[]> dijkstra(AdjacencyListDirectedGraph g, DirectedNode start) {
+		int n = g.getNbNodes();
+		boolean[] mark = new boolean[n];
+		int[] val = new int[n];
+		DirectedNode[] pred = new DirectedNode[n];
+
+		for (int i = 0; i < n; i++) {
+			mark[i] = false;
+			val[i] = Integer.MAX_VALUE / 2;
+			pred[i] = null;
+		}
+
+		val[start.getLabel()] = 0;
+		pred[start.getLabel()] = start;
+
+		int markedCount = 0;
+
+		while (markedCount < n) {
+			int x = -1;
+			int min = Integer.MAX_VALUE / 2;
+
+			for (int i = 0; i < n; i++) {
+				if (!mark[i] && val[i] < min) {
+					x = i;
+					min = val[i];
+				}
+			}
+
+			if (x == -1) {
+				break;
+			}
+
+			mark[x] = true;
+			markedCount++;
+
+			DirectedNode current = g.getNodes().get(x);
+
+			for (Arc arc : current.getArcSucc()) {
+				DirectedNode neighbor = arc.getSecondNode();
+				int y = neighbor.getLabel();
+				if (!mark[y] && val[x] + arc.getWeight() < val[y]) {
+					val[y] = val[x] + arc.getWeight();
+					pred[y] = current;
+				}
+			}
+		}
+
+		return new Pair<>(val, pred);
+	}
 
 	public static List<DirectedNode> BFS(AdjacencyListDirectedGraph g) {
 		List<DirectedNode> nodes = g.getNodes();
@@ -122,6 +170,7 @@ public class GraphToolsList  extends GraphTools {
 		int[][] matrixValued = GraphTools.generateValuedGraphData(10, false, true, true, false, 100001);
 		GraphTools.afficherMatrix(Matrix);
 		AdjacencyListDirectedGraph al = new AdjacencyListDirectedGraph(Matrix);
+		AdjacencyListDirectedGraph valuedDirectedGraph = new AdjacencyListDirectedValuedGraph(Matrix);
 		AdjacencyListUndirectedValuedGraph alVal = new AdjacencyListUndirectedValuedGraph(matrixValued);
 		System.out.println(al);
 
@@ -137,5 +186,13 @@ public class GraphToolsList  extends GraphTools {
 		System.out.print("DFS récursif : ");
 		explorerGraphe(al);
 		System.out.println();
+
+		DirectedNode start = valuedDirectedGraph.getNodes().get(0);
+		Pair<int[], DirectedNode[]> dijkstra = dijkstra(valuedDirectedGraph, start);
+		int[] distances = dijkstra.getLeft();
+		DirectedNode[] predecessors = dijkstra.getRight();
+		System.out.println("Node's labels : " + Arrays.toString(valuedDirectedGraph.getNodes().stream().map(DirectedNode::getLabel).toArray()));
+		System.out.println("Distances from node 0 : " + Arrays.toString(distances));
+		System.out.println("Predecessors : " + Arrays.toString(predecessors));
 	}
 }
