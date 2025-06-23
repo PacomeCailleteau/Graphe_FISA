@@ -238,6 +238,33 @@ public class GraphTools {
 		graph.display();
 	}
 
+	public static void drawBinaryHeap(int[] heap) {
+		System.setProperty("org.graphstream.ui", "swing");
+
+		Graph graph = new SingleGraph("Binary Heap");
+
+		graph.setAttribute("ui.stylesheet",
+				"node { fill-color: #88c0d0; size: 30px; text-alignment: center; text-size: 14px; }" +
+						"edge { shape: cubic-curve; fill-color: gray; }");
+
+		for (int i = 0; i < heap.length; i++) {
+			Node node = graph.addNode(String.valueOf(i));
+			node.setAttribute("ui.label", String.valueOf(heap[i]));
+		}
+
+		for (int i = 0; i < heap.length; i++) {
+			int left = 2 * i + 1;
+			int right = 2 * i + 2;
+			if (left < heap.length) {
+				graph.addEdge(i + "-" + left, String.valueOf(i), String.valueOf(left), true);
+			}
+			if (right < heap.length) {
+				graph.addEdge(i + "-" + right, String.valueOf(i), String.valueOf(right), true);
+			}
+		}
+
+		graph.display();
+	}
 
 
 	/**
