@@ -154,21 +154,12 @@ public class BinaryHeap {
         int m = k;
         int min = 2;
         int max = 20;
-        int[] heap = {
-                6, 7, 8, 13, 16,
-                3, 13, 19, 2, 8,
-                9, 9, 13, 13, 18,
-                6, 17, 12, 18, 11
-        };
-        for (int i = 0; i < heap.length; i++) {
-            jarjarBin.insert(heap[i]);
-        }/*
         while (k > 0) {
             int rand = min + (int) (Math.random() * ((max - min) + 1));
             System.out.println("insert : " + rand);
             jarjarBin.insert(rand);            
             k--;
-        }*/
+        }
 
         System.out.println("-------------------------------");
         System.out.println(jarjarBin);
@@ -177,6 +168,9 @@ public class BinaryHeap {
         System.out.println(jarjarBin);
 
         GraphTools.drawBinaryHeap(jarjarBin.nodes);
+
+        System.out.println(jarjarBin.test());
+        System.out.println(jarjarBin.testRec(0));
     }
 
 }
