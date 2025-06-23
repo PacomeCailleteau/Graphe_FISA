@@ -31,19 +31,67 @@ public class BinaryHeapEdge {
 	 * @param val the edge weight
 	 */
     public void insert(UndirectedNode from, UndirectedNode to, int val) {
-    	// To complete
+    	Edge edge = new Edge(from, to, val);
+		binh.add(edge);
+
+		remonterElement(edge);
     }
 
-    
-    /**
+	private void remonterElement(Edge edge) {
+		int weight = edge.getWeight();
+		int currentElementPos = binh.size()-1;
+		Edge currentParent = getParent(currentElementPos);
+		int currentParentPos = getParentPos(currentElementPos);
+
+		while (true) {
+			if (!(currentParent.getWeight() > weight && currentElementPos > 0)) break;
+			swap(currentParentPos, currentElementPos);
+
+			currentElementPos = currentParentPos;
+			currentParent = getParent(currentElementPos);
+			currentParentPos = getParentPos(currentElementPos);
+		}
+	}
+
+	public int getParentPos(int pos) {
+		return (pos-1)/2;
+	}
+
+	public Edge getParent(int pos) {
+		return binh.get(getParentPos(pos));
+	}
+
+	private void descendreElement(Edge edge) {
+		int weight = edge.getWeight();
+		int currentElementPos = 0;
+		int bestChildPos = getBestChildPos(currentElementPos);
+
+		while (bestChildPos < binh.size() && weight > binh.get(bestChildPos).getWeight()) {
+			swap(currentElementPos, bestChildPos);
+
+			currentElementPos = bestChildPos;
+			bestChildPos = getBestChildPos(currentElementPos);
+		}
+	}
+
+
+
+	/**
 	 * Removes the root edge in the binary heap, and swap the edges to keep a valid binary heap
 	 * 
 	 * @return the edge with the minimal value (root of the binary heap)
 	 * 
 	 */
     public Edge remove() {
-    	// To complete
-    	return null;
+		Edge first = binh.get(0);
+		Edge removedEdge = new Edge(first.getFirstNode(), first.getSecondNode(), first.getWeight());
+		int lastIndex = binh.size() - 1;
+		swap(0, lastIndex);
+		binh.remove(lastIndex);
+
+		descendreElement(binh.get(0));
+
+		return removedEdge;
         
     }
     
@@ -58,16 +106,30 @@ public class BinaryHeapEdge {
     	int lastIndex = binh.size()-1; 
         if (isLeaf(src)) { // the leaf is a stopping case, then we return a default value
             return Integer.MAX_VALUE;
-        } else {
-        	// To complete
-        	return Integer.MAX_VALUE;
+        } else if (lastIndex == 2 * src + 1) {
+			return 2 * src+1;
+		}
+		else {
+			Edge leftChild = binh.get(2 * src + 1);
+			Edge rightChild = binh.get(2 * src + 2);
+			if (leftChild.getWeight() > rightChild.getWeight()) {
+				return 2*src+2;
+			}
+			return 2*src+1;
         }
     }
 
     private boolean isLeaf(int src) {
-    	// A completer
-    	return false;
+    	return src*2 >= binh.size();
     }
+
+	public int[] toIntHeap() {
+		int[] res = new int[binh.size()];
+		for (int i = 0; i < binh.size(); i++) {
+			res[i] = binh.get(i).getWeight();
+		}
+		return res;
+	}
 
     
     /**
@@ -76,14 +138,18 @@ public class BinaryHeapEdge {
 	 * @param father an index of the list edges
 	 * @param child an index of the list edges
 	 */
-    private void swap(int father, int child) {         
-    	Edge temp = binh.get(father);
-    	binh.get(father).setFirstNode(binh.get(child).getFirstNode());
-    	binh.get(father).setSecondNode(binh.get(child).getSecondNode());
-    	binh.get(father).setWeight(binh.get(child).getWeight());
-    	binh.get(child).setFirstNode(temp.getFirstNode());
-    	binh.get(child).setSecondNode(temp.getSecondNode());
-    	binh.get(child).setWeight(temp.getWeight());
+    private void swap(int father, int child) {
+    	Edge pere = binh.get(father);
+		Edge fils = binh.get(child);
+		Edge temp = new Edge(pere.getFirstNode(), pere.getSecondNode(), pere.getWeight());
+
+		pere.setFirstNode(fils.getFirstNode());
+    	pere.setSecondNode(fils.getSecondNode());
+    	pere.setWeight(fils.getWeight());
+
+    	fils.setFirstNode(temp.getFirstNode());
+    	fils.setSecondNode(temp.getSecondNode());
+    	fils.setWeight(temp.getWeight());
     }
 
     
@@ -169,19 +235,28 @@ public class BinaryHeapEdge {
     public static void main(String[] args) {
         BinaryHeapEdge jarjarBin = new BinaryHeapEdge();
         System.out.println(jarjarBin.isEmpty()+"\n");
-        int k = 10;
+        int k = 20;
         int m = k;
         int min = 2;
         int max = 20;
         while (k > 0) {
             int rand = min + (int) (Math.random() * ((max - min) + 1));                        
-            jarjarBin.insert(new UndirectedNode(k), new UndirectedNode(k+30), rand);            
+            System.out.println("insert : " + rand);
+            jarjarBin.insert(new UndirectedNode(k), new UndirectedNode(k+30), rand);
             k--;
         }
-        // A completer
-        System.out.println(jarjarBin);
+
+		System.out.println("-------------------------------");
+		System.out.println(jarjarBin);
+		jarjarBin.remove();
+		jarjarBin.remove();
+		System.out.println(jarjarBin);
+
+		GraphTools.drawBinaryHeap(jarjarBin.toIntHeap());
+
         System.out.println(jarjarBin.test());
-    }
+        System.out.println(jarjarBin.testRec(0));
+	}
 
 }
 

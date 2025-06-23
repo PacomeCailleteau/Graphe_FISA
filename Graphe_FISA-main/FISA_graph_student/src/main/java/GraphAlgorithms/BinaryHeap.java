@@ -35,7 +35,7 @@ public class BinaryHeap {
         return nodes[getParentPos(pos)];
     }
 
-    public boolean insert(int element) {
+    public void insert(int element) {
         if (pos+1 >= nodes.length) {
             resize();
         }
@@ -43,8 +43,6 @@ public class BinaryHeap {
         pos++;
 
         remonterElement(element);
-
-        return true;
     }
 
     private void remonterElement(int element) {
@@ -87,6 +85,8 @@ public class BinaryHeap {
     private int getBestChildPos(int src) {
         if (isLeaf(src)) { // the leaf is a stopping case, then we return a default value
             return Integer.MAX_VALUE;
+        } else if (2 * src + 1 == pos - 1) {
+            return 2*src+1;
         } else {
             int leftChild = nodes[2 * src + 1];
             int rightChild = nodes[2 * src + 2];
