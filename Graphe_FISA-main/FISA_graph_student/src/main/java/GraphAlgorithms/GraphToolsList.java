@@ -240,14 +240,16 @@ public class GraphToolsList  extends GraphTools {
 
 		// Application du DFS sur le graphe inversé en suivant l'ordre de fin inversé
 		explorerGrapheBis(gInv);
+		System.out.println();
 
+		System.out.println("Dijkstra : ");
         DirectedNode start = valuedDirectedGraph.getNodes().get(0);
         Pair<int[], DirectedNode[]> dijkstra = dijkstra(valuedDirectedGraph, start);
         int[] distances = dijkstra.getLeft();
         DirectedNode[] predecessors = dijkstra.getRight();
-        System.out.println("Node's labels : " + Arrays.toString(valuedDirectedGraph.getNodes().stream().map(DirectedNode::getLabel).toArray()));
-        System.out.println("Distances from node 0 : " + Arrays.toString(distances));
-        System.out.println("Predecessors : " + Arrays.toString(predecessors));
+        System.out.println("Noms des sommets : " + Arrays.toString(valuedDirectedGraph.getNodes().stream().map(DirectedNode::getLabel).toArray()));
+        System.out.println("Distance du sommet 0 : " + Arrays.toString(distances));
+        System.out.println("Prédécesseurs : " + Arrays.toString(predecessors));
 
     }
 }
