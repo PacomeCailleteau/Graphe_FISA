@@ -4,7 +4,7 @@ package GraphAlgorithms;
 public class BinaryHeap {
 
     private int[] nodes;
-    private int pos;
+    private int pos; // pos correspond au dernier indice vide (là où il y a un MAX INT)
 
     public BinaryHeap() {
         this.nodes = new int[32];
@@ -27,21 +27,78 @@ public class BinaryHeap {
         return pos == 0;
     }
 
+    public int getParentPos(int pos) {
+        return (pos-1)/2;
+    }
+
+    public int getParent(int pos) {
+        return nodes[getParentPos(pos)];
+    }
+
     public void insert(int element) {
-    	// A completer
+        if (pos+1 >= nodes.length) {
+            resize();
+        }
+    	nodes[pos] = element;
+        pos++;
+
+        remonterElement(element);
+    }
+
+    private void remonterElement(int element) {
+        int currentElementPos = pos-1;
+        int currentParent = getParent(currentElementPos);
+        int currentParentPos = getParentPos(currentElementPos);
+
+        while (currentParent > element && currentElementPos > 0) {
+            swap(currentParentPos, currentElementPos);
+
+            currentElementPos = currentParentPos;
+            currentParent = getParent(currentElementPos);
+            currentParentPos = getParentPos(currentElementPos);
+        }
+    }
+
+    private void descendreElement(int element) {
+        int currentElementPos = 0;
+        int bestChildPos = getBestChildPos(currentElementPos);
+
+        while (bestChildPos < pos && element > nodes[bestChildPos]) {
+            swap(currentElementPos, bestChildPos);
+
+            currentElementPos = bestChildPos;
+            bestChildPos = getBestChildPos(currentElementPos);
+        }
     }
 
     public int remove() {
-    	// A completer
-    	return 0;
+        if (isEmpty()) {
+            throw new IllegalStateException("The binary heap is empty, nothing to remove.");
+        }
+        int removedValue = nodes[0];
+    	swap(0, pos-1);
+        nodes[pos-1] = Integer.MAX_VALUE;
+        pos--;
+
+        if (!isEmpty()) {
+            descendreElement(nodes[0]);
+        }
+
+    	return removedValue;
     }
 
     private int getBestChildPos(int src) {
         if (isLeaf(src)) { // the leaf is a stopping case, then we return a default value
             return Integer.MAX_VALUE;
+        } else if (2 * src + 1 == pos - 1) {
+            return 2*src+1;
         } else {
-        	// A completer
-        	return Integer.MAX_VALUE;
+            int leftChild = nodes[2 * src + 1];
+            int rightChild = nodes[2 * src + 2];
+            if (leftChild > rightChild) {
+                return 2*src+2;
+            }
+            return 2*src+1;
         }
     }
 
@@ -53,8 +110,7 @@ public class BinaryHeap {
 	 * 
 	 */	
     private boolean isLeaf(int src) {
-    	// A completer
-    	return false;
+    	return src*2+1 >= pos;
     }
 
     private void swap(int father, int child) {
@@ -96,6 +152,7 @@ public class BinaryHeap {
     }
 
     public static void main(String[] args) {
+        System.out.println((1/2));
         BinaryHeap jarjarBin = new BinaryHeap();
         System.out.println(jarjarBin.isEmpty()+"\n");
         int k = 20;
@@ -104,13 +161,21 @@ public class BinaryHeap {
         int max = 20;
         while (k > 0) {
             int rand = min + (int) (Math.random() * ((max - min) + 1));
-            System.out.print("insert " + rand);
+            System.out.println("insert : " + rand);
             jarjarBin.insert(rand);            
             k--;
         }
-     // A completer
-        System.out.println("\n" + jarjarBin);
+
+        System.out.println("-------------------------------");
+        System.out.println(jarjarBin);
+        jarjarBin.remove();
+        jarjarBin.remove();
+        System.out.println(jarjarBin);
+
+        GraphTools.drawBinaryHeap(jarjarBin.nodes);
+
         System.out.println(jarjarBin.test());
+        System.out.println(jarjarBin.testRec(0));
     }
 
 }

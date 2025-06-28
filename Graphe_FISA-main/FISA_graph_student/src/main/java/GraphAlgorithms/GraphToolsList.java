@@ -50,7 +50,7 @@ public class GraphToolsList  extends GraphTools {
 		}
 
 		val[start.getLabel()] = 0;
-		pred[start.getLabel()] = start;
+		pred[start.getLabel()] = null;
 
 		int markedCount = 0;
 
@@ -206,6 +206,44 @@ public class GraphToolsList  extends GraphTools {
 		visite[label] = 2;
 	}
 
+	public static Pair<List<Edge>, Integer> prim(AdjacencyListUndirectedValuedGraph g, UndirectedNode start) {
+		int n = g.getNbNodes();
+		boolean[] visited = new boolean[n];
+		List<Edge> resultEdgeList = new ArrayList<>();
+		Integer cost = 0;
+		BinaryHeapEdge heap = new BinaryHeapEdge();
+
+		int startLabel = start.getLabel();;
+		visited[startLabel] = true;
+
+		for (Edge e : start.getIncidentEdges()) {
+			UndirectedNode to = e.getSecondNode();
+			heap.insert(start, to, e.getWeight());
+		}
+
+		while (resultEdgeList.size() < n - 1 && !heap.isEmpty()) {
+			Edge minEdge = heap.remove();
+			int toLabel = minEdge.getSecondNode().getLabel();
+			int fromLabel = minEdge.getFirstNode().getLabel();
+
+			if (!visited[toLabel] || !visited[fromLabel]) {
+				int newNodeLabel = visited[fromLabel] ? toLabel : fromLabel;
+				visited[newNodeLabel] = true;
+				resultEdgeList.add(minEdge);
+				cost += minEdge.getWeight();
+
+				UndirectedNode newNode = g.getNodes().get(newNodeLabel);
+				for (Edge e : newNode.getIncidentEdges()) {
+					UndirectedNode adj = e.getSecondNode();
+					if (!visited[adj.getLabel()]) {
+						heap.insert(newNode, adj, e.getWeight());
+					}
+				}
+			}
+		}
+		return new Pair<>(resultEdgeList, cost);
+	}
+
 	public static void main(String[] args) {
 		int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, true, 100001);
 		int[][] matrixValued = GraphTools.generateValuedGraphData(10, false, true, true, false, 100001);
@@ -213,7 +251,6 @@ public class GraphToolsList  extends GraphTools {
 		AdjacencyListDirectedGraph al = new AdjacencyListDirectedGraph(Matrix);
 		AdjacencyListDirectedGraph valuedDirectedGraph = new AdjacencyListDirectedValuedGraph(Matrix);
 		AdjacencyListUndirectedValuedGraph alVal = new AdjacencyListUndirectedValuedGraph(matrixValued);
-		AdjacencyListDirectedGraph gInverse = al.computeInverse();
 		System.out.println(al);
 
 
@@ -250,6 +287,20 @@ public class GraphToolsList  extends GraphTools {
         System.out.println("Noms des sommets : " + Arrays.toString(valuedDirectedGraph.getNodes().stream().map(DirectedNode::getLabel).toArray()));
         System.out.println("Distance du sommet 0 : " + Arrays.toString(distances));
         System.out.println("Prédécesseurs : " + Arrays.toString(predecessors));
+        System.out.println("Node's labels : " + Arrays.toString(valuedDirectedGraph.getNodes().stream().map(DirectedNode::getLabel).toArray()));
+        System.out.println("Distances from node 0 : " + Arrays.toString(distances));
+        System.out.println("Predecessors : " + Arrays.toString(predecessors));
 
-    }
+        System.out.println("Prim : ");
+		UndirectedNode startNode = alVal.getNodes().get(0);
+		Pair<List<Edge>, Integer> prim = prim(alVal, startNode);
+		List<Edge> edgeList = prim.getLeft();
+		Integer cost = prim.getRight();
+		System.out.println("Prim's algorithm result:");
+		System.out.println("Edges: " + edgeList);
+		System.out.println("Total cost: " + cost);
+
+		GraphTools.representationGraphique(matrixValued, false);
+
+	}
 }
