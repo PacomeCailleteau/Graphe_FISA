@@ -9,9 +9,6 @@ import java.util.List;
 import GraphAlgorithms.GraphTools;
 import Nodes_Edges.Arc;
 import Nodes_Edges.DirectedNode;
-import Nodes_Edges.Edge;
-import Nodes_Edges.UndirectedNode;
-
 
 
 public class AdjacencyListDirectedGraph {
@@ -228,43 +225,44 @@ public class AdjacencyListDirectedGraph {
         AdjacencyListDirectedGraph al = new AdjacencyListDirectedGraph(Matrix);
         System.out.println("Seed used to have the following results : 100001");
         System.out.println(al);
-        System.out.println("Should be true : (n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
-        System.out.println("Should be false : (n_3,n_7) is it in the graph ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
+        System.out.println("Doit être vrai : (n_7,n_3) est dans le graphe ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
+        System.out.println("Doit être faux : (n_3,n_7) est dans le graphe ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
 
         DirectedNode n_3 = new DirectedNode(3);
         DirectedNode n_7 = new DirectedNode(7);
         al.removeArc(n_3, n_7);
-        System.out.println("Should be true : (n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
-        System.out.println("Should be false : (n_3,n_7) is it in the graph ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
+        System.out.println("Doit être vrai : (n_7,n_3) est dans le graphe ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
+        System.out.println("Doit être faux : (n_3,n_7) est dans le graphe ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
 
         al.removeArc(n_7, n_3);
-        System.out.println("Should be false : (n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
-        System.out.println("Should be false : (n_3,n_7) is it in the graph ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
+        System.out.println("Doit être faux : (n_7,n_3) est dans le graphe ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
+        System.out.println("Doit être faux : (n_3,n_7) est dans le graphe ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
 
         al.addArc(n_3, n_7);
-        System.out.println("Should be false : (n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
-        System.out.println("Should be true : (n_3,n_7) is it in the graph ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
+        System.out.println("Doit être faux : (n_7,n_3) est dans le graphe ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
+        System.out.println("Doit être vrai : (n_3,n_7) est dans le graphe ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
 
         al.addArc(n_3, n_7);
-        System.out.println("Should be false : (n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
-        System.out.println("Should be true : (n_3,n_7) is it in the graph ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
+        System.out.println("Doit être faux : (n_7,n_3) est dans le graphe ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
+        System.out.println("Doit être vrai : (n_3,n_7) est dans le graphe ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
 
         al.addArc(n_7, n_3);
-        System.out.println("Should be true : (n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
-        System.out.println("Should be true : (n_3,n_7) is it in the graph ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
+        System.out.println("Doit être vrai : (n_7,n_3) est dans le graphe ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
+        System.out.println("Doit être vrai : (n_3,n_7) est dans le graphe ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
 
         al.removeArc(n_3, n_7);
-        System.out.println("Should be true : (n_7,n_3) is it in the graph ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
-        System.out.println("Should be false : (n_3,n_7) is it in the graph ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
+        System.out.println("Doit être vrai : (n_7,n_3) est dans le graphe ? " +  al.isArc(al.getNodes().get(7), al.getNodes().get(3)));
+        System.out.println("Doit être faux : (n_3,n_7) est dans le graphe ? " +  al.isArc(al.getNodes().get(3), al.getNodes().get(7)));
 
         int[][] adjacencyMatrix = al.toAdjacencyMatrix();
+        System.out.println("Matrice : ");
         for (int[] line : adjacencyMatrix) {
             System.out.println(Arrays.toString(line));
         }
 
         AdjacencyListDirectedGraph reversedAl = al.computeInverse();
         int[][] reversedAlAdjacencyMatrix = reversedAl.toAdjacencyMatrix();
-        System.out.println("Reversed matrix");
+        System.out.println("Matrice inversée : ");
         for (int[] line : reversedAlAdjacencyMatrix) {
             System.out.println(Arrays.toString(line));
         }

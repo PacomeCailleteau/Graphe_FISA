@@ -2,9 +2,6 @@ package AdjacencyMatrix;
 
 import GraphAlgorithms.GraphTools;
 
-import java.util.List;
-
-
 public class AdjacencyMatrixDirectedValuedGraph extends AdjacencyMatrixDirectedGraph {
 
 	//--------------------------------------------------
@@ -69,27 +66,27 @@ public class AdjacencyMatrixDirectedValuedGraph extends AdjacencyMatrixDirectedG
 		System.out.println(am);
 
 		// Is Edge from 0 to 3 :
-		System.out.println("\n\nShould be false : Is there an arc from 0 to 3 ? : " + am.isArc(0, 3));
-		System.out.println("\n\nShould be true : Is there an arc from 0 to 3 ? : " + am.isArc(0, 2));
+		System.out.println("\n\nDoit être faux : Il y a un arc entre 0 et 3 ? : " + am.isArc(0, 3));
+		System.out.println("\n\nDoit être vrai : Il y a un arc entre 0 et 3 ? : " + am.isArc(0, 2));
 		Integer cost = am.getCost(0, 2);
-		System.out.println("Should be 13 : Cost of the arc from 0 to 2 : " + cost);
+		System.out.println("Doit être 13 : Coût de l'arc entre 0 et 2 : " + cost);
 
 		// We add an arc from 0 to 2 :
-		System.out.println("\n\nWe add an arc from 0 to 2 and from 0 and 3 : ");
+		System.out.println("\n\nNous ajoutons un arc entre 0 et 2 et entre 0 et 3 : ");
 		am.addArc(0, 2, 47);
 		am.addArc(0, 3, 88);
-		System.out.println("\nShould be true : Is there an arc from 0 to 2 ? : " + am.isArc(0, 2));
+		System.out.println("\nDoit être vrai : Il y a un arc entre 0 et 2 : " + am.isArc(0, 2));
 		cost = am.getCost(0, 2);
-		System.out.println("Should be 13 : Cost of the arc from 0 to 2 : " + cost);
-		System.out.println("\nShould be true : Is there an arc from 0 to 3 ? : " + am.isArc(0, 3));
+		System.out.println("Doit être 13 : Coût de l'arc entre 0 et 2 : " + cost);
+		System.out.println("\nDoit être vrai : Il y a un arc entre 0 et 3 ? : " + am.isArc(0, 3));
 		cost = am.getCost(0, 3);
-		System.out.println("Should be 88 : Cost of the arc from 0 to 3 : " + cost);
+		System.out.println("Doit être 88 : Coût de l'arc entre 0 et 3 : " + cost);
 
 		// We remove the arc from 0 to 2 :
-		System.out.println("\n\nWe remove the arc from 0 to 2 : ");
+		System.out.println("\n\nNous supprimons l'arc entre 0 et 2 : ");
 		am.removeArc(0, 2);
 		System.out.println(am);
-		System.out.println("\nShould be false : Is there an arc from 0 to 2 ? : " + am.isArc(0, 2));
+		System.out.println("\nDoit être faux : Il y a un arc entre 0 et 2 ? : " + am.isArc(0, 2));
 
 		am.displayGraphStream();
 	}

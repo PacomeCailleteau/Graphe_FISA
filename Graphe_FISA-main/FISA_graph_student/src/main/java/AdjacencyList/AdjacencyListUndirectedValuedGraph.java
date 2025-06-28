@@ -1,6 +1,5 @@
 package AdjacencyList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import GraphAlgorithms.GraphTools;
@@ -72,28 +71,28 @@ public class AdjacencyListUndirectedValuedGraph extends AdjacencyListUndirectedG
         AdjacencyListUndirectedValuedGraph al = new AdjacencyListUndirectedValuedGraph(matrixValued);
         System.out.println("Seed used to have the following results : 100001");
         System.out.println(al);
-        System.out.println("Shoud be false : (n_2,n_5) is it in the graph ? " +  al.isEdge(al.getNodes().get(2), al.getNodes().get(5)));
+        System.out.println("Doit être faux : (n_2,n_5) est dans le graphe ? " +  al.isEdge(al.getNodes().get(2), al.getNodes().get(5)));
 
         UndirectedNode n_0 = new UndirectedNode(0);
         UndirectedNode n_2 = new UndirectedNode(2);
         UndirectedNode n_5 = new UndirectedNode(5);
         al.addEdge(n_2, n_5, 666);
         al.addEdge(n_2, n_0, 44);
-        System.out.println("Ajout des arrêtes entre 0 et 2 ainsi que 2 et 5.");
+        System.out.println("Ajout des arrêtes entre 0 et 2 ainsi qu'entre 2 et 5.");
 
-        System.out.println("Shoud be true : (n_2,n_5) is it in the graph ? " +  al.isEdge(n_2, n_5));
-        System.out.println("Shoud be true : (n_0,n_2) is it in the graph ? " +  al.isEdge(n_0, n_2));
+        System.out.println("Doit être vrai : (n_2,n_5) est dans le graphe ? " +  al.isEdge(n_2, n_5));
+        System.out.println("Doit être vrai : (n_0,n_2) est dans le graphe ? " +  al.isEdge(n_0, n_2));
         Integer weight = al.getWeight(n_2, n_5);
-        System.out.println("Shoud be 666 : weight of the edge (n_2,n_5) is " + weight);
+        System.out.println("Doit être 666 : Le poids de l'arête (n_2,n_5) est " + weight);
         weight = al.getWeight(n_2, n_0);
-        System.out.println("Shoud be 8 (initial value as we cannot override existing weight) : weight of the edge (n_2,n_0) is " + weight);
+        System.out.println("Doit être 8 (valeur initiale car nous ne pouvons pas remplacer le poids existant) : Le poids de l'arête (n_2,n_0) est " + weight);
 
         al.removeEdge(n_5, n_2);
         al.removeEdge(n_2, n_0);
-        System.out.println("Suppression des arrêtes entre 0 et 2 ainsi que 2 et 5.");
+        System.out.println("Suppression des arrêtes entre 0 et 2 ainsi qu'entre 2 et 5.");
 
-        System.out.println("Shoud be false : (n_2,n_5) is it in the graph ? " +  al.isEdge(n_2, n_5));
-        System.out.println("Shoud be false : (n_0,n_2) is it in the graph ? " +  al.isEdge(n_0, n_2));
+        System.out.println("Doit être faux : (n_2,n_5) est dans le graphe ? " +  al.isEdge(n_2, n_5));
+        System.out.println("Doit être faux : (n_0,n_2) est dans le graphe ? " +  al.isEdge(n_0, n_2));
 
     }
 }

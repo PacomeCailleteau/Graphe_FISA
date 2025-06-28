@@ -210,10 +210,10 @@ public class GraphToolsList  extends GraphTools {
 		int n = g.getNbNodes();
 		boolean[] visited = new boolean[n];
 		List<Edge> resultEdgeList = new ArrayList<>();
-		Integer cost = 0;
+		int cost = 0;
 		BinaryHeapEdge heap = new BinaryHeapEdge();
 
-		int startLabel = start.getLabel();;
+		int startLabel = start.getLabel();
 		visited[startLabel] = true;
 
 		for (Edge e : start.getIncidentEdges()) {
@@ -247,6 +247,7 @@ public class GraphToolsList  extends GraphTools {
 	public static void main(String[] args) {
 		int[][] Matrix = GraphTools.generateGraphData(10, 20, false, false, true, 100001);
 		int[][] matrixValued = GraphTools.generateValuedGraphData(10, false, true, true, false, 100001);
+		System.out.println("Matrice : ");
 		GraphTools.afficherMatrix(Matrix);
 		AdjacencyListDirectedGraph al = new AdjacencyListDirectedGraph(Matrix);
 		AdjacencyListDirectedGraph valuedDirectedGraph = new AdjacencyListDirectedValuedGraph(Matrix);
@@ -255,12 +256,14 @@ public class GraphToolsList  extends GraphTools {
 
 
 		List<DirectedNode> bfs = BFS(al);
-		System.out.println("BFS Directed nodes : " + bfs);
-		// GraphTools.representationGraphique(Matrix, true);
+		System.out.println("BFS graphe orienté : ");
+		System.out.println("Ordre de fin : " + bfs);
+		System.out.println();
 
 		List<UndirectedNode> bfsUndirectedNode = BFS(alVal);
-		System.out.println("BFS Undirected nodes : " + bfsUndirectedNode);
-		// GraphTools.representationGraphique(matrixValued, false);
+		System.out.println("BFS graphe non-orienté : ");
+		System.out.println("Ordre de fin : " + bfsUndirectedNode);
+		System.out.println();
 
 		System.out.print("DFS récursif : ");
 		explorerGraphe(al);
@@ -287,20 +290,17 @@ public class GraphToolsList  extends GraphTools {
         System.out.println("Noms des sommets : " + Arrays.toString(valuedDirectedGraph.getNodes().stream().map(DirectedNode::getLabel).toArray()));
         System.out.println("Distance du sommet 0 : " + Arrays.toString(distances));
         System.out.println("Prédécesseurs : " + Arrays.toString(predecessors));
-        System.out.println("Node's labels : " + Arrays.toString(valuedDirectedGraph.getNodes().stream().map(DirectedNode::getLabel).toArray()));
-        System.out.println("Distances from node 0 : " + Arrays.toString(distances));
-        System.out.println("Predecessors : " + Arrays.toString(predecessors));
+		System.out.println();
 
-        System.out.println("Prim : ");
+		System.out.println("Prim : ");
 		UndirectedNode startNode = alVal.getNodes().get(0);
 		Pair<List<Edge>, Integer> prim = prim(alVal, startNode);
 		List<Edge> edgeList = prim.getLeft();
 		Integer cost = prim.getRight();
-		System.out.println("Prim's algorithm result:");
-		System.out.println("Edges: " + edgeList);
-		System.out.println("Total cost: " + cost);
+		System.out.println("Résultats de l'algorithme de Prim :");
+		System.out.println("Arêtes: " + edgeList);
+		System.out.println("Coût total : " + cost);
 
 		GraphTools.representationGraphique(matrixValued, false);
-
 	}
 }

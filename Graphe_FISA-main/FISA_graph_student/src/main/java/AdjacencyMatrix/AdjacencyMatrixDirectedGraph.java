@@ -2,8 +2,6 @@ package AdjacencyMatrix;
 
 
 import GraphAlgorithms.GraphTools;
-import Nodes_Edges.AbstractNode;
-import Nodes_Edges.DirectedNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -237,25 +235,25 @@ public class AdjacencyMatrixDirectedGraph {
 		}
 
 		// Is Edge from 0 to 3 :
-		System.out.println("\n\nIs there an arc from 0 to 3 ? : " + am.isArc(0, 3));
+		System.out.println("\n\nIl y a un arc entre 0 et 3 ? : " + am.isArc(0, 3));
 
 		// We add an arc from 0 to 2 :
-		System.out.println("\n\nWe add an arc from 0 to 2 : ");
+		System.out.println("\n\nNous ajoutons un arc entre 0 et 2 : ");
 		am.addArc(0, 2);
 		System.out.println(am);
-		System.out.println("\nIs there an arc from 0 to 2 ? : " + am.isArc(0, 2));
+		System.out.println("\nIl y a un arc entre 0 et 2 ? : " + am.isArc(0, 2));
 
 		// We remove the arc from 0 to 2 :
-		System.out.println("\n\nWe remove the arc from 0 to 2 : ");
+		System.out.println("\n\nNous supprimons un arc entre 0 et 2 : ");
 		am.removeArc(0, 2);
 		System.out.println(am);
-		System.out.println("\nIs there an arc from 0 to 2 ? : " + am.isArc(0, 2));
+		System.out.println("\nIl y a un arc entre 0 et 2 ? : " + am.isArc(0, 2));
 
 		// We reverse the graph :
-		System.out.println("\n\nWe reverse the graph : ");
-		System.out.println("The graph\n" + am);
+		System.out.println("\n\nNous inversons le graphe : ");
+		System.out.println("Le graphe : \n" + am);
 		AdjacencyMatrixDirectedGraph amInv = am.computeInverse();
-		System.out.println("The inverse graph\n" + amInv);
+		System.out.println("Le graphe inversé : \n" + amInv);
 
 		am.displayGraphStream();
 		amInv.displayGraphStream();

@@ -2,9 +2,6 @@ package AdjacencyMatrix;
 
 import GraphAlgorithms.GraphTools;
 
-import java.util.List;
-
-
 public class AdjacencyMatrixUndirectedValuedGraph extends AdjacencyMatrixUndirectedGraph {
 
 	//--------------------------------------------------
@@ -67,24 +64,24 @@ public class AdjacencyMatrixUndirectedValuedGraph extends AdjacencyMatrixUndirec
 		System.out.println(am);
 
 		// Is there an edge between 0 and 2 ?
-		System.out.println("\n\nShould be true : isEdge(0, 2) ? " + am.isEdge(0, 2));
+		System.out.println("\n\nDoit être vrai : isEdge(0, 2) ? " + am.isEdge(0, 2));
 		Integer cost = am.getCost(0, 2);
-		System.out.println("Should be 8 : Cost of the edge {0,2} : " + cost);
+		System.out.println("Doit être 8 : Côt de l'arête {0,2} : " + cost);
 
 		// We add one edge {3,5} :
-		System.out.println("\n\nShould be false : isEdge(3, 5) ? " + am.isEdge(3, 5));
+		System.out.println("\n\nDoit être faux : isEdge(3, 5) ? " + am.isEdge(3, 5));
 		// We add one edge {3,5} :
-		System.out.println("\n\nAdding one edge {3,5} with cost 77 :");
+		System.out.println("\n\nAjout de l'arête {3,5} avec un coût de 77 :");
 		am.addEdge(3, 5, 77);
-		System.out.println("\n\nShould be true : isEdge(3, 5) ? " + am.isEdge(3, 5));
+		System.out.println("\n\nDoit être vrai : isEdge(3, 5) ? " + am.isEdge(3, 5));
 		cost = am.getCost(3, 5);
-		System.out.println("Should be 77 : Cost of the edge {3,5} : " + cost);
+		System.out.println("Doit être 77 : Coût de l'arête {3,5} : " + cost);
 		System.out.println(am);
 
 		// We remove the edge {3,5} :
-		System.out.println("\nAfter removing one edge {3,5} :");
+		System.out.println("\nAprès avoir supprimé l'arête {3,5} :");
 		am.removeEdge(3,5);
-		System.out.println("\n\nShould be false : isEdge(3, 5) ? " + am.isEdge(3, 5));
+		System.out.println("\n\nDoit être faux : isEdge(3, 5) ? " + am.isEdge(3, 5));
 		System.out.println(am);
 	}
 

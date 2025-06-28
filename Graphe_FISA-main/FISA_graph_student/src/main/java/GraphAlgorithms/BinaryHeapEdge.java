@@ -3,7 +3,6 @@ package GraphAlgorithms;
 import java.util.ArrayList;
 import java.util.List;
 
-import Nodes_Edges.DirectedNode;
 import Nodes_Edges.Edge;
 import Nodes_Edges.UndirectedNode;
 
@@ -238,7 +237,7 @@ public class BinaryHeapEdge {
         int max = 20;
         while (k > 0) {
             int rand = min + (int) (Math.random() * ((max - min) + 1));                        
-            System.out.println("insert : " + rand);
+            System.out.println("Ajout : " + rand);
             jarjarBin.insert(new UndirectedNode(k), new UndirectedNode(k+30), rand);
             k--;
         }

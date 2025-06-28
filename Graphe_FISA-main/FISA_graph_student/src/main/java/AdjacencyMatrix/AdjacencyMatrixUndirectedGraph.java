@@ -4,7 +4,6 @@ package AdjacencyMatrix;
 import GraphAlgorithms.GraphTools;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import AdjacencyList.AdjacencyListUndirectedGraph;
@@ -88,7 +87,7 @@ public class AdjacencyMatrixUndirectedGraph {
 	}
 	/**
 	 * 
-	 * @param x the vertex selected
+	 * @param v the vertex selected
 	 * @return a list of vertices which are the neighbours of x
 	 */
 	public List<Integer> getNeighbours(int v) {
@@ -179,7 +178,7 @@ public class AdjacencyMatrixUndirectedGraph {
 		System.out.println("\n\nisEdge(3, 5) ? " + am.isEdge(3, 5));
 
 		// We remove the edge {3,5} :
-		System.out.println("\nAfter removing one edge {3,5} :");
+		System.out.println("\nAprès avoir supprimé l'arête {3,5} :");
 		am.removeEdge(3,5);
 		System.out.println(am);
 		System.out.println("\n\nisEdge(3, 5) ? " + am.isEdge(3, 5));

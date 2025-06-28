@@ -73,7 +73,7 @@ public class BinaryHeap {
 
     public int remove() {
         if (isEmpty()) {
-            throw new IllegalStateException("The binary heap is empty, nothing to remove.");
+            throw new IllegalStateException("Le tas binaire est vide, il n'y a rien à supprimer.");
         }
         int removedValue = nodes[0];
     	swap(0, pos-1);
@@ -106,7 +106,7 @@ public class BinaryHeap {
     /**
 	 * Test if the node is a leaf in the binary heap
 	 * 
-	 * @returns true if it's a leaf or false else
+	 * @return true if it's a leaf or false else
 	 * 
 	 */	
     private boolean isLeaf(int src) {
@@ -130,7 +130,7 @@ public class BinaryHeap {
     /**
 	 * Recursive test to check the validity of the binary heap
 	 * 
-	 * @returns a boolean equal to True if the binary tree is compact from left to right
+	 * @return a boolean equal to True if the binary tree is compact from left to right
 	 * 
 	 */
     public boolean test() {
@@ -161,7 +161,7 @@ public class BinaryHeap {
         int max = 20;
         while (k > 0) {
             int rand = min + (int) (Math.random() * ((max - min) + 1));
-            System.out.println("insert : " + rand);
+            System.out.println("Ajout : " + rand);
             jarjarBin.insert(rand);            
             k--;
         }

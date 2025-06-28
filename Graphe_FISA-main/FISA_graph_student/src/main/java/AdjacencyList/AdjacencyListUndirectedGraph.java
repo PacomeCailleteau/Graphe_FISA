@@ -206,7 +206,7 @@ public class AdjacencyListUndirectedGraph {
         AdjacencyListUndirectedGraph al = new AdjacencyListUndirectedGraph(mat);
         System.out.println("Seed used to have the following results : 100001");
         System.out.println(al);
-        System.out.println("Shoud be false : (n_2,n_5) is it in the graph ? " +  al.isEdge(al.getNodes().get(2), al.getNodes().get(5)));
+        System.out.println("Doit être faux : (n_2,n_5) est dans le graphe ? " +  al.isEdge(al.getNodes().get(2), al.getNodes().get(5)));
 
         UndirectedNode n_0 = new UndirectedNode(0);
         UndirectedNode n_2 = new UndirectedNode(2);
@@ -216,17 +216,18 @@ public class AdjacencyListUndirectedGraph {
         System.out.println("Ajout des arrêtes entre 0 et 2 ainsi que 2 et 5.");
 
         System.out.println(al);
-        System.out.println("Shoud be true : (n_2,n_5) is it in the graph ? " +  al.isEdge(al.getNodes().get(2), al.getNodes().get(5)));
-        System.out.println("Shoud be true : (n_0,n_2) is it in the graph ? " +  al.isEdge(al.getNodes().get(0), al.getNodes().get(2)));
+        System.out.println("Doit être vrai : (n_2,n_5) est dans le graphe ? " +  al.isEdge(al.getNodes().get(2), al.getNodes().get(5)));
+        System.out.println("Doit être vrai : (n_0,n_2) est dans le graphe ? " +  al.isEdge(al.getNodes().get(0), al.getNodes().get(2)));
 
         al.removeEdge(n_5, n_2);
         al.removeEdge(n_2, n_0);
-        System.out.println("Suppression des arrêtes entre 0 et 2 ainsi que 2 et 5.");
+        System.out.println("Suppression des arrêtes entre 0 et 2 ainsi qu'entre 2 et 5.");
 
-        System.out.println("Shoud be false : (n_2,n_5) is it in the graph ? " +  al.isEdge(al.getNodes().get(2), al.getNodes().get(5)));
-        System.out.println("Shoud be false : (n_0,n_2) is it in the graph ? " +  al.isEdge(al.getNodes().get(0), al.getNodes().get(2)));
+        System.out.println("Doit être faux : (n_2,n_5) est dans le graphe ? " +  al.isEdge(al.getNodes().get(2), al.getNodes().get(5)));
+        System.out.println("Doit être faux : (n_0,n_2) est dans le graphe ? " +  al.isEdge(al.getNodes().get(0), al.getNodes().get(2)));
 
         int[][] adjacencyMatrix = al.toAdjacencyMatrix();
+        System.out.println("Matrice :");
         for (int[] line : adjacencyMatrix) {
             System.out.println(Arrays.toString(line));
         }

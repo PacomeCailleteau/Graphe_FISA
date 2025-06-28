@@ -71,40 +71,40 @@ public class AdjacencyListDirectedValuedGraph extends AdjacencyListDirectedGraph
         System.out.println(al);
         DirectedNode n_3 = new DirectedNode(3);
         DirectedNode n_7 = new DirectedNode(7);
-        System.out.println("Should be true : (n_7,n_3) is it in the graph ? " +  al.isArc(n_7, n_3));
+        System.out.println("Doit être vrai : (n_7,n_3) is it in the graph ? " +  al.isArc(n_7, n_3));
         Integer weight = al.getWeight(n_7, n_3);
-        System.out.println("Value should be 3 : " + weight);
-        System.out.println("Should be false : (n_3,n_7) is it in the graph ? " +  al.isArc(n_3, n_7));
+        System.out.println("La valeur doit être 3 : " + weight);
+        System.out.println("Doit être faux : (n_3,n_7) is it in the graph ? " +  al.isArc(n_3, n_7));
 
         al.removeArc(n_3, n_7);
-        System.out.println("Should be true : (n_7,n_3) is it in the graph ? " +  al.isArc(n_7, n_3));
-        System.out.println("Should be false : (n_3,n_7) is it in the graph ? " +  al.isArc(n_3, n_7));
+        System.out.println("Doit être vrai : (n_7,n_3) is it in the graph ? " +  al.isArc(n_7, n_3));
+        System.out.println("Doit être faux : (n_3,n_7) is it in the graph ? " +  al.isArc(n_3, n_7));
 
         al.removeArc(n_7, n_3);
-        System.out.println("Should be false : (n_7,n_3) is it in the graph ? " +  al.isArc(n_7, n_3));
-        System.out.println("Should be false : (n_3,n_7) is it in the graph ? " +  al.isArc(n_3, n_7));
+        System.out.println("Doit être faux : (n_7,n_3) is it in the graph ? " +  al.isArc(n_7, n_3));
+        System.out.println("Doit être faux : (n_3,n_7) is it in the graph ? " +  al.isArc(n_3, n_7));
 
         al.addArc(n_3, n_7, 22);
-        System.out.println("Should be false : (n_7,n_3) is it in the graph ? " +  al.isArc(n_7, n_3));
-        System.out.println("Should be true : (n_3,n_7) is it in the graph ? " +  al.isArc(n_3, n_7));
+        System.out.println("Doit être faux : (n_7,n_3) is it in the graph ? " +  al.isArc(n_7, n_3));
+        System.out.println("Doit être vrai : (n_3,n_7) is it in the graph ? " +  al.isArc(n_3, n_7));
         weight = al.getWeight(n_3, n_7);
-        System.out.println("Value should be 22 : " + weight);
+        System.out.println("La valeur doit être 22 : " + weight);
 
         al.addArc(n_3, n_7, 10);
-        System.out.println("Should be false : (n_7,n_3) is it in the graph ? " +  al.isArc(n_7, n_3));
-        System.out.println("Should be true : (n_3,n_7) is it in the graph ? " +  al.isArc(n_3, n_7));
+        System.out.println("Doit être faux : (n_7,n_3) is it in the graph ? " +  al.isArc(n_7, n_3));
+        System.out.println("Doit être vrai : (n_3,n_7) is it in the graph ? " +  al.isArc(n_3, n_7));
         weight = al.getWeight(n_3, n_7);
-        System.out.println("Value should be 22 : " + weight);
+        System.out.println("La valeur doit être 22 : " + weight);
 
         al.addArc(n_7, n_3, 17);
-        System.out.println("Should be true : (n_7,n_3) is it in the graph ? " +  al.isArc(n_7, n_3));
-        System.out.println("Should be true : (n_3,n_7) is it in the graph ? " +  al.isArc(n_3, n_7));
+        System.out.println("Doit être vrai : (n_7,n_3) is it in the graph ? " +  al.isArc(n_7, n_3));
+        System.out.println("Doit être vrai : (n_3,n_7) is it in the graph ? " +  al.isArc(n_3, n_7));
         weight = al.getWeight(n_7, n_3);
-        System.out.println("Value should be 17 : " + weight);
+        System.out.println("La valeur doit être 17 : " + weight);
 
         al.removeArc(n_3, n_7);
-        System.out.println("Should be true : (n_7,n_3) is it in the graph ? " +  al.isArc(n_7, n_3));
-        System.out.println("Should be false : (n_3,n_7) is it in the graph ? " +  al.isArc(n_3, n_7));
+        System.out.println("Doit être vrai : (n_7,n_3) is it in the graph ? " +  al.isArc(n_7, n_3));
+        System.out.println("Doit être faux : (n_3,n_7) is it in the graph ? " +  al.isArc(n_3, n_7));
 
     }
 	
