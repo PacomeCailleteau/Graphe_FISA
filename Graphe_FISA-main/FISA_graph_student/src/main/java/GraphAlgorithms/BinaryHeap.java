@@ -72,12 +72,17 @@ public class BinaryHeap {
     }
 
     public int remove() {
+        if (isEmpty()) {
+            throw new IllegalStateException("The binary heap is empty, nothing to remove.");
+        }
         int removedValue = nodes[0];
     	swap(0, pos-1);
         nodes[pos-1] = Integer.MAX_VALUE;
         pos--;
 
-        descendreElement(nodes[0]);
+        if (!isEmpty()) {
+            descendreElement(nodes[0]);
+        }
 
     	return removedValue;
     }
@@ -105,7 +110,7 @@ public class BinaryHeap {
 	 * 
 	 */	
     private boolean isLeaf(int src) {
-    	return src*2 >= pos;
+    	return src*2+1 >= pos;
     }
 
     private void swap(int father, int child) {

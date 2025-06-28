@@ -43,14 +43,13 @@ public class BinaryHeapEdge {
 		Edge currentParent = getParent(currentElementPos);
 		int currentParentPos = getParentPos(currentElementPos);
 
-		while (true) {
-			if (!(currentParent.getWeight() > weight && currentElementPos > 0)) break;
-			swap(currentParentPos, currentElementPos);
+        while (currentParent.getWeight() > weight && currentElementPos > 0) {
+            swap(currentParentPos, currentElementPos);
 
-			currentElementPos = currentParentPos;
-			currentParent = getParent(currentElementPos);
-			currentParentPos = getParentPos(currentElementPos);
-		}
+            currentElementPos = currentParentPos;
+            currentParent = getParent(currentElementPos);
+            currentParentPos = getParentPos(currentElementPos);
+        }
 	}
 
 	public int getParentPos(int pos) {
@@ -83,13 +82,18 @@ public class BinaryHeapEdge {
 	 * 
 	 */
     public Edge remove() {
+		if (isEmpty()) {
+			throw new IllegalStateException("The binary heap is empty, nothing to remove.");
+		}
 		Edge first = binh.get(0);
 		Edge removedEdge = new Edge(first.getFirstNode(), first.getSecondNode(), first.getWeight());
 		int lastIndex = binh.size() - 1;
 		swap(0, lastIndex);
 		binh.remove(lastIndex);
 
-		descendreElement(binh.get(0));
+		if (!binh.isEmpty()) {
+			descendreElement(binh.get(0));
+		}
 
 		return removedEdge;
         
@@ -120,7 +124,7 @@ public class BinaryHeapEdge {
     }
 
     private boolean isLeaf(int src) {
-    	return src*2 >= binh.size();
+    	return src*2+1 >= binh.size();
     }
 
 	public int[] toIntHeap() {
@@ -139,17 +143,10 @@ public class BinaryHeapEdge {
 	 * @param child an index of the list edges
 	 */
     private void swap(int father, int child) {
-    	Edge pere = binh.get(father);
-		Edge fils = binh.get(child);
-		Edge temp = new Edge(pere.getFirstNode(), pere.getSecondNode(), pere.getWeight());
+		Edge temp = binh.get(father);
+		binh.set(father, binh.get(child));
+		binh.set(child, temp);
 
-		pere.setFirstNode(fils.getFirstNode());
-    	pere.setSecondNode(fils.getSecondNode());
-    	pere.setWeight(fils.getWeight());
-
-    	fils.setFirstNode(temp.getFirstNode());
-    	fils.setSecondNode(temp.getSecondNode());
-    	fils.setWeight(temp.getWeight());
     }
 
     
